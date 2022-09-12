@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+# This script is used to create all models in a row
+npx sequelize-cli model:generate --name User --attributes email:string,password:string
+npx sequelize-cli model:generate --name Service --attributes name:string,areaId
+npx sequelize-cli model:generate --name Area --attributes name:string
