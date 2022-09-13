@@ -9,17 +9,29 @@ npx sequelize-cli model:generate --name Area --attributes name:string,serviceId:
 npx sequelize-cli model:generate --name Manual --attributes name:string
 npx sequelize-cli model:generate --name Guide --attributes name:string
 npx sequelize-cli model:generate --name Owner --attributes name:string,image:string
+npx sequelize-cli model:generate --name finalDisposition --attributes description:string,finalDispositionDate:date,file:string
+npx sequelize-cli model:generate --name RistType --attributes name:string
+npx sequelize-cli model:generate --name BiomedicalClassification --attributes name:string
+npx sequelize-cli model:generate --name Technology --attributes name:string
 npx sequelize-cli model:generate --name DeviceStatus --attributes name:string
-npx sequelize-cli model:generate --name Device --attributes name:string,ServiceId:integer\
+npx sequelize-cli model:generate --name Device --attributes name:string,image:string\
 ,code:string\
+,oldCode:string\
 ,model:string\
-,serie:string\
+,serial:string\
 ,cost:integer\
 ,location:string\
 ,acquisitionDate:date\
-,installationDate\
+,installationDate:date\
+,warehouseReceiptDate:date\
+,manufactoringDate:date\
 ,status:integer\
+,serviceId:integer\
+,areaId:string\
 ,manualId:integer\
 ,guideId:integer\
 ,ownerId:integer\
+,finalDispositionId:integer\
+,riskTypeId:integer\
+,biomedicalClassificationId:integer\
 ,deviceStatusId:integer\
