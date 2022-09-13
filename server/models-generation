@@ -9,14 +9,15 @@ npx sequelize-cli model:generate --name Area --attributes name:string,serviceId:
 npx sequelize-cli model:generate --name Manual --attributes name:string
 npx sequelize-cli model:generate --name Guide --attributes name:string
 npx sequelize-cli model:generate --name Owner --attributes name:string,image:string
-npx sequelize-cli model:generate --name finalDisposition --attributes description:string,finalDispositionDate:date,file:string
+npx sequelize-cli model:generate --name FinalDisposition --attributes description:string,finalDispositionDate:date,file:string
 npx sequelize-cli model:generate --name RiskType --attributes name:string
 npx sequelize-cli model:generate --name BiomedicalClassification --attributes name:string
 npx sequelize-cli model:generate --name Technology --attributes name:string
 npx sequelize-cli model:generate --name TicketStatus --attributes name:string
-npx sequelize-cli model:generate --name providerId --attributes name:string
+npx sequelize-cli model:generate --name Provider --attributes name:string
 npx sequelize-cli model:generate --name DeviceType --attributes name:string
 npx sequelize-cli model:generate --name AcquisitionType --attributes name:string
+npx sequelize-cli model:generate --name Contract --attributes code:string,description:string,file:string,startDate:date
 
 npx sequelize-cli model:generate --name DeviceStatus --attributes name:string
 npx sequelize-cli model:generate --name Device --attributes name:string,image:string\
@@ -42,7 +43,10 @@ npx sequelize-cli model:generate --name Device --attributes name:string,image:st
 ,deviceStatusId:integer\
 ,deviceTypeId:integer\
 
-npx sequelize-cli model:generate --name acquisition --attributes code:string,file:string,providerId:integer,acquisitionDate:date, acquisitionTypeId:integer, externUrl:string
+
+npx sequelize-cli model:generate --name Plan --attributes scheduledDatedate:date,deviceId:integer,contractId:integer
+
+npx sequelize-cli model:generate --name Acquisition --attributes code:string,file:string,providerId:integer,acquisitionDate:date,acquisitionTypeId:integer,externUrl:string
 
 npx sequelize-cli model:generate --name Ticket --attributes name:string\
 ,reporterId:integer\
@@ -54,6 +58,7 @@ npx sequelize-cli model:generate --name Ticket --attributes name:string\
 
 npx sequelize-cli model:generate --name Calibration --attributes description:string,file:string,deviceId:integer,calibrationDate:date
 
-npx sequelize-cli model:generate --name PreventiveMaintenance --attributes description:string,file:string,deviceId:integer,preventiveMaintenanceDate:date
+npx sequelize-cli model:generate --name PreventiveMaintenance --attributes description:string,file:string,deviceId:integer,preventiveMaintenanceDate:date,providerId:integer
 
 npx sequelize-cli model:generate --name Note --attributes description:string,file:string,deviceId:integer,userId:integer,noteDate:date
+
