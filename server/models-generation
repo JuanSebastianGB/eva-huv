@@ -60,5 +60,8 @@ npx sequelize-cli model:generate --name Calibration --attributes description:str
 
 npx sequelize-cli model:generate --name PreventiveMaintenance --attributes description:string,file:string,deviceId:integer,preventiveMaintenanceDate:date,providerId:integer
 
+npx sequelize-cli model:generate --name CorrectiveMaintenance --attributes reportDate:date,deadLineDate:date,deviceId:integer,providerId:integer
+
 npx sequelize-cli model:generate --name Note --attributes description:string,file:string,deviceId:integer,userId:integer,noteDate:date
 
+npx sequelize-cli model:generate --name SparePartNeeded --attributes name:string,status:boolean,preventiveMaintenanceId:integer,ticketId:integer,noteId:integer,correctiveMaintenanceId:integer
