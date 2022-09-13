@@ -13,6 +13,8 @@ npx sequelize-cli model:generate --name finalDisposition --attributes descriptio
 npx sequelize-cli model:generate --name RistType --attributes name:string
 npx sequelize-cli model:generate --name BiomedicalClassification --attributes name:string
 npx sequelize-cli model:generate --name Technology --attributes name:string
+npx sequelize-cli model:generate --name TicketStatus --attributes name:string
+
 npx sequelize-cli model:generate --name DeviceStatus --attributes name:string
 npx sequelize-cli model:generate --name Device --attributes name:string,image:string\
 ,code:string\
@@ -35,3 +37,11 @@ npx sequelize-cli model:generate --name Device --attributes name:string,image:st
 ,riskTypeId:integer\
 ,biomedicalClassificationId:integer\
 ,deviceStatusId:integer\
+
+npx sequelize-cli model:generate --name Ticket --attributes name:string\
+,reporterId:integer\
+,title:string\
+,description:string\
+,ticketStatusId:integer\
+,deviceId:integer\
+,ticketFile:string\
