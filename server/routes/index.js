@@ -28,6 +28,7 @@ router.delete('/areas/:id', AreaController.deleteOne);
 router.get('/services', ServiceController.getAll);
 router.get('/services/:id', ServiceController.getOne);
 router.post('/services', ServiceController.create);
+router.put('/services/:id', ServiceController.update);
 router.delete('/services/:id', ServiceController.deleteOne);
 
 export default router;
