@@ -85,9 +85,9 @@ class AreaController {
    */
   static async update(req, res) {
     const { id } = req.params;
-
     try {
       const area = await Area.findAll({ where: { id } });
+
       if (area.length === 0) return res.status(401).json({ err: 'Not Found' });
       const response = await Area.update(req.body, { where: { id } });
       return res.status(200).json({ response });
