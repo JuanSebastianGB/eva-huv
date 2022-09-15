@@ -1,4 +1,5 @@
 import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
 
 const { User } = require('../models');
 
@@ -16,13 +17,14 @@ const hashPasswd = (pwd) => {
 
 class UsersController {
   /**
-   * It creates a new user in the database if the email is not already taken
+   * It creates a new user in the database, and returns a JWT token
    * @param req - The request object.
    * @param res - the response object
-   * @returns The userCreated object is being returned.
+   * @returns A token
    */
   static async postNew(req, res) {
     const { email, password } = req.body;
+    const { sign } = jwt;
 
     if (!email) return res.status(400).json({ err: 'Missing Email' });
     if (!password) return res.status(400).json({ err: 'Missing password' });
@@ -33,7 +35,10 @@ class UsersController {
     if (userFound.length > 0) return res.json({ err: 'Already exists' });
     const userToCreate = { email, password: hashedPassword };
     const userCreated = await User.create(userToCreate);
-    return res.json({ userCreated });
+    const { id } = userCreated;
+    const expiresIn = 86400;
+    const token = sign({ id }, 'SECRET', { expiresIn });
+    return res.json({ token });
   }
 
   /**
@@ -48,6 +53,12 @@ class UsersController {
     return res.json({ users });
   }
 
+  /**
+   * This function is used to get a single user from the database
+   * @param req - The request object.
+   * @param res - The response object.
+   * @returns An array of objects.
+   */
   static async getOne(req, res) {
     const { email } = req.params;
     const user = await User.findAll({ where: { email } });
