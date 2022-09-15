@@ -5,6 +5,8 @@ import UsersController from '../controllers/UserController';
 import AreaController from '../controllers/AreaController';
 import ServiceController from '../controllers/ServiceController';
 
+import { verifyToken } from '../middlewares/authJwt';
+
 const router = express.Router();
 
 router.get('/', (req, res) => res.json({ input: 'input point' }));
@@ -19,16 +21,16 @@ router.post('/users', UsersController.postNew);
 router.get('/users', UsersController.getAll);
 router.get('/users/:email', UsersController.getOne);
 
-router.get('/areas', AreaController.getAll);
-router.get('/areas/:id', AreaController.getOne);
-router.post('/areas', AreaController.create);
-router.put('/areas/:id', AreaController.update);
-router.delete('/areas/:id', AreaController.deleteOne);
+router.get('/areas', [verifyToken], AreaController.getAll);
+router.get('/areas/:id', [verifyToken], AreaController.getOne);
+router.post('/areas', [verifyToken], AreaController.create);
+router.put('/areas/:id', [verifyToken], AreaController.update);
+router.delete('/areas/:id', [verifyToken], AreaController.deleteOne);
 
-router.get('/services', ServiceController.getAll);
-router.get('/services/:id', ServiceController.getOne);
-router.post('/services', ServiceController.create);
-router.put('/services/:id', ServiceController.update);
-router.delete('/services/:id', ServiceController.deleteOne);
+router.get('/services', [verifyToken], ServiceController.getAll);
+router.get('/services/:id', [verifyToken], ServiceController.getOne);
+router.post('/services', [verifyToken], ServiceController.create);
+router.put('/services/:id', [verifyToken], ServiceController.update);
+router.delete('/services/:id', [verifyToken], ServiceController.deleteOne);
 
 export default router;

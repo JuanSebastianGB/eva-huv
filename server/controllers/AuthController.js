@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import crypto from 'crypto';
 import redisClient from '../utils/redis';
-import jwt from 'jsonwebtoken';
+import jwt, { verify } from 'jsonwebtoken';
 
 const { User } = require('../models');
 
@@ -58,6 +58,13 @@ class AuthController {
     return res.json({ token: key });
   }
 
+  /**
+   * It deletes the token from the redis database
+   * @param req - The request object.
+   * @param res - The response object.
+   * @returns the status code 204, which means that the request was successful, but there is no content
+   * to return.
+   */
   static async getDisconnect(req, res) {
     const key = req.header('X-Token');
     if (!key || key.length === 0) {
@@ -84,21 +91,26 @@ class AuthController {
     if (!email) return res.status(400).json({ err: 'Missing Email' });
     if (!password) return res.status(400).json({ err: 'Missing password' });
 
-    const user = await User.findAll({ where: { email } });
-    if (user.length === 0)
-      res.status(401).json({ err: 'Not valid credentials' });
+    try {
+      const user = await User.findAll({ where: { email } });
+      if (user.length === 0)
+        res.status(401).json({ err: 'Not valid credentials' });
 
-    const hashedPassword = hashPasswd(password);
+      const hashedPassword = hashPasswd(password);
 
-    const userToFind = { email, password: hashedPassword };
-    const userFound = await User.findAll({ where: userToFind });
-    if (userFound.length <= 0)
-      return res.json({ error: 'Not valid credentials' });
+      const userToFind = { email, password: hashedPassword };
+      const userFound = await User.findAll({ where: userToFind });
+      if (userFound.length <= 0)
+        return res.json({ error: 'Not valid credentials' });
 
-    const { id } = userFound;
-    const expiresIn = 86400;
-    const token = sign({ id }, 'SECRET', { expiresIn });
-    res.status(200).json({ token });
+      const { id } = userFound[0];
+      const expiresIn = 86400;
+      const token = sign({ id }, 'SECRET', { expiresIn });
+      console.log({ token, verified: verify(token, 'SECRET') });
+      res.status(200).json({ token });
+    } catch (error) {
+      return res.status(403).json({ error });
+    }
   }
 }
 
