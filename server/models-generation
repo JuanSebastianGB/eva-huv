@@ -30,7 +30,7 @@ npx sequelize-cli model:generate --name Device --attributes name:string,image:st
 ,acquisitionDate:date\
 ,installationDate:date\
 ,warehouseReceiptDate:date\
-,manufactoringDate:date\
+,manufacturingDate:date\
 ,status:integer\
 ,serviceId:integer\
 ,areaId:string\
@@ -44,7 +44,7 @@ npx sequelize-cli model:generate --name Device --attributes name:string,image:st
 ,deviceTypeId:integer\
 
 
-npx sequelize-cli model:generate --name Plan --attributes scheduledDatedate:date,deviceId:integer,contractId:integer
+npx sequelize-cli model:generate --name Plan --attributes scheduledDate:date,deviceId:integer,contractId:integer
 
 npx sequelize-cli model:generate --name Acquisition --attributes code:string,file:string,providerId:integer,acquisitionDate:date,acquisitionTypeId:integer,externUrl:string
 
@@ -64,4 +64,4 @@ npx sequelize-cli model:generate --name CorrectiveMaintenance --attributes repor
 
 npx sequelize-cli model:generate --name Note --attributes description:string,file:string,deviceId:integer,userId:integer,noteDate:date
 
-npx sequelize-cli model:generate --name SparePartNeeded --attributes name:string,status:boolean,preventiveMaintenanceId:integer,ticketId:integer,noteId:integer,correctiveMaintenanceId:integer
+npx sequelize-cli model:generate --name SparePartNeeded --attributes name:string,status:boolean,preventiveMaintenanceId:integer,ticketId:integer,noteId:integer,correctiveMaintenanceId:integer,noteId:integer
