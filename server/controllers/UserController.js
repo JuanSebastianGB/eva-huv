@@ -45,7 +45,7 @@ class UsersController {
    */
   static async getAll(req, res) {
     const users = await User.findAll();
-    return res.json(users);
+    return res.json({ users });
   }
 
   static async getOne(req, res) {
