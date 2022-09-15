@@ -1,4 +1,5 @@
 const { Area } = require('../models');
+const { Service } = require('../models');
 
 class AreaController {
   /**
@@ -31,7 +32,10 @@ class AreaController {
    */
   static async getAll(req, res) {
     try {
-      const area = await Area.findAll({ attributes: ['name'] });
+      const area = await Area.findAll({
+        include: [{ model: Service }],
+        attributes: ['name'],
+      });
       return res.status(200).json(area);
     } catch (err) {
       return res.status(401).json({ err });
