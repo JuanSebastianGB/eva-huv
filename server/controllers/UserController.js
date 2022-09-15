@@ -1,6 +1,9 @@
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 
+require('dotenv').config();
+const { JWT_SECRET } = process.env;
+
 const { User } = require('../models');
 
 /**
@@ -37,7 +40,7 @@ class UsersController {
     const userCreated = await User.create(userToCreate);
     const { id } = userCreated;
     const expiresIn = 86400;
-    const token = sign({ id }, 'SECRET', { expiresIn });
+    const token = sign({ id }, JWT_SECRET, { expiresIn });
     return res.json({ token });
   }
 

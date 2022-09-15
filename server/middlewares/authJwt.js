@@ -1,16 +1,18 @@
 const { User } = require('../models');
 import { verify } from 'jsonwebtoken';
 
+require('dotenv').config();
+const { JWT_SECRET } = process.env;
+
 export const verifyToken = async (req, res, next) => {
   try {
     const { headers } = req;
-    // const { SECRET } = config;
-    const SECRET = 'SECRET';
 
     const token = headers['x-access-token'];
 
     if (!token) return res.status(403).json({ message: 'token required' });
-    const verifiedToken = verify(token, SECRET);
+    const verifiedToken = verify(token, JWT_SECRET);
+    console.log({ JWT_SECRET });
 
     const { id } = verifiedToken;
     req.userId = id;

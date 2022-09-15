@@ -3,6 +3,9 @@ import crypto from 'crypto';
 import redisClient from '../utils/redis';
 import jwt, { verify } from 'jsonwebtoken';
 
+require('dotenv').config();
+const { JWT_SECRET } = process.env;
+
 const { User } = require('../models');
 
 const error = 'Unauthorized';
@@ -87,6 +90,7 @@ class AuthController {
   static async signUp(req, res) {
     const { email, password } = req.body;
     const { sign } = jwt;
+    console.log({ JWT_SECRET });
 
     if (!email) return res.status(400).json({ err: 'Missing Email' });
     if (!password) return res.status(400).json({ err: 'Missing password' });
@@ -105,8 +109,9 @@ class AuthController {
 
       const { id } = userFound[0];
       const expiresIn = 86400;
-      const token = sign({ id }, 'SECRET', { expiresIn });
-      console.log({ token, verified: verify(token, 'SECRET') });
+      console.log({ JWT_SECRET });
+
+      const token = sign({ id }, JWT_SECRET, { expiresIn });
       res.status(200).json({ token });
     } catch (error) {
       return res.status(403).json({ error });
