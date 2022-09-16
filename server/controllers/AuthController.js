@@ -90,7 +90,6 @@ class AuthController {
   static async signUp(req, res) {
     const { email, password } = req.body;
     const { sign } = jwt;
-    console.log({ JWT_SECRET });
 
     if (!email) return res.status(400).json({ err: 'Missing Email' });
     if (!password) return res.status(400).json({ err: 'Missing password' });
@@ -98,21 +97,20 @@ class AuthController {
     try {
       const user = await User.findAll({ where: { email } });
       if (user.length === 0)
-        res.status(401).json({ err: 'Not valid credentials' });
+        return res.status(401).json({ err: 'Not valid credentials' });
 
       const hashedPassword = hashPasswd(password);
 
       const userToFind = { email, password: hashedPassword };
       const userFound = await User.findAll({ where: userToFind });
       if (userFound.length <= 0)
-        return res.json({ error: 'Not valid credentials' });
+        return res.status(401).json({ error: 'Not valid credentials' });
 
       const { id } = userFound[0];
       const expiresIn = 86400;
-      console.log({ JWT_SECRET });
 
       const token = sign({ id }, JWT_SECRET, { expiresIn });
-      res.status(200).json({ token });
+      return res.status(200).json({ token });
     } catch (error) {
       return res.status(403).json({ error });
     }

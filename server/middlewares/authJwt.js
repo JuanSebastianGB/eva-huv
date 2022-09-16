@@ -12,7 +12,6 @@ export const verifyToken = async (req, res, next) => {
 
     if (!token) return res.status(403).json({ message: 'token required' });
     const verifiedToken = verify(token, JWT_SECRET);
-    console.log({ JWT_SECRET });
 
     const { id } = verifiedToken;
     req.userId = id;
