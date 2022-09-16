@@ -8,9 +8,11 @@ let token;
 
 describe('areas endpoint', () => {
   it('Post /signup', (done) => {
-    const url = `${URL}/signup`;
-    const method = 'POST',
-      form = { email: 'test@gmail.com', password: '123456' },
+    const url = `${URL}/signup`,
+      email = process.env.TEST_EMAIL,
+      password = process.env.TEST_PASSWORD,
+      method = 'POST',
+      form = { email, password: '123456' },
       headers = { Accept: 'application/json' },
       options = { url, method, form, headers };
     request.post(options, (err, res, body) => {
