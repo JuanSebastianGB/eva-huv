@@ -6,7 +6,7 @@ const { v4 } = require('uuid');
 const PORT = process.env.PORT || 5000,
   URL = `http://localhost:${PORT}`;
 
-describe('areas endpoint', () => {
+describe('Test suit for signup endpoint', () => {
   it('Post /signup', (done) => {
     const url = `${URL}/signup`,
       email = process.env.TEST_EMAIL,
