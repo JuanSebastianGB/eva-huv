@@ -8,17 +8,17 @@ let token;
 
 describe('areas endpoint', () => {
   beforeEach(() => {
-    // const url = `${URL}/signup`;
-    // const headers = { Accept: 'application/json' };
-    // const body = { email: 'test@gmail.com', password: '123456' };
-    // const method = 'POST';
-    // const options = { url, headers, body, method };
-    // const fallback = (error, response, body) => {
-    //   if (!error && response.status === 200) {
-    //     token = response;
-    //   }
-    // };
-    // const response = request(options, fallback);
+    const url = `${URL}/areas`,
+      email = process.env.TEST_EMAIL,
+      password = process.env.TEST_PASSWORD,
+      method = 'POST',
+      form = { email, password },
+      headers = { Accept: 'application/json' },
+      options = { url, method, form, headers };
+    request.post(options, (err, res, body) => {
+      jsonResponse = JSON.parse(body);
+      token = jsonResponse.token;
+    });
   });
   it('Get /areas', (done) => {
     const url = `${URL}/areas`;

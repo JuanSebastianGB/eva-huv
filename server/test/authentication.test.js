@@ -53,4 +53,19 @@ describe('areas endpoint', () => {
       done();
     });
   });
+  it("Post /signup should thrown an error when the email exists but password doesn't match", (done) => {
+    const url = `${URL}/signup`,
+      email = process.env.TEST_EMAIL,
+      password = v4(),
+      method = 'POST',
+      form = { email, password },
+      headers = { Accept: 'application/json' },
+      options = { url, method, form, headers };
+    request.post(options, (error, res, body) => {
+      expect(res.statusCode).to.equal(401);
+      const jsonResponse = JSON.parse(body);
+      expect(jsonResponse.error).to.equal('Not valid credentials');
+      done();
+    });
+  });
 });
