@@ -17,6 +17,7 @@ module.exports = {
           model: { tableName: 'Services' },
           key: 'id',
         },
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

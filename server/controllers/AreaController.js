@@ -10,8 +10,8 @@ class AreaController {
    * @returns The area is being returned.
    */
   static async create(req, res) {
-    console.log({ response: req.body, response2: req.file });
-    const { name } = req.body;
+    const { name, serviceId } = req.body;
+    if (!serviceId) res.status(400).json({ err: 'missing service' });
     if (!name) res.status(400).json({ err: 'missing name' });
     try {
       const area = await Area.findAll({ where: { name } });
