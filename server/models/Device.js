@@ -9,6 +9,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Device.belongsTo(models.Plan);
+
+      Device.hasMany(models.File);
       Device.hasMany(models.Note);
     }
   }

@@ -1,13 +1,25 @@
 import express from 'express';
+import multer from 'multer';
 import AppController from '../controllers/AppController';
 import AuthController from '../controllers/AuthController';
 import UsersController from '../controllers/UserController';
 import AreaController from '../controllers/AreaController';
 import ServiceController from '../controllers/ServiceController';
+import FileController from '../controllers/FileController';
 
 import { verifyToken } from '../middlewares/authJwt';
 
 const router = express.Router();
+
+router.post(
+  '/upload',
+  FileController.uploadFile('uploads'),
+  (req, res, next) => {
+    const response = req.file;
+    res.status(200).json({ response });
+    next();
+  }
+);
 
 router.get('/', (req, res) => res.json({ input: 'input point' }));
 router.get('/status', AppController.getStatus);

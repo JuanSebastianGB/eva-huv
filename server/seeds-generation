@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+npx sequelize-cli seed:generate --name demo-services
