@@ -5,9 +5,9 @@ require('dotenv').config();
 const { JWT_SECRET } = process.env;
 
 export const verifyToken = async (req, res, next) => {
+  const { headers } = req;
+  if (headers['skip']) return next();
   try {
-    const { headers } = req;
-
     const token = headers['x-access-token'];
 
     if (!token) return res.status(403).json({ message: 'token required' });

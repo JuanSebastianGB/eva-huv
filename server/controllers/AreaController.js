@@ -49,7 +49,9 @@ class AreaController {
    * @param res - The response object.
    */
   static async getOne(req, res) {
-    const { id } = req.params;
+    let { id } = req.params;
+    id = parseFloat(id);
+    if (isNaN(id)) return res.status(401).json({ err: 'id must be a number' });
     try {
       const area = await Area.findAll({ where: { id }, attributes: ['name'] });
       if (!area) return res.status(401).json({ err: 'Not Found' });
