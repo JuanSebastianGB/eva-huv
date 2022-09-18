@@ -1,15 +1,20 @@
 import express from 'express';
-import multer from 'multer';
 import AppController from '../controllers/AppController';
 import AuthController from '../controllers/AuthController';
 import UsersController from '../controllers/UserController';
 import AreaController from '../controllers/AreaController';
 import ServiceController from '../controllers/ServiceController';
 import FileController from '../controllers/FileController';
+import StudentController from '../controllers/StudentController';
+import ClassRoomController from '../controllers/ClassRoomController';
 
 import { verifyToken } from '../middlewares/authJwt';
 
 const router = express.Router();
+
+/** Many To Many implementation */
+router.get('/students', StudentController.getAll);
+router.get('/classrooms', ClassRoomController.getAll);
 
 router.post(
   '/upload',
