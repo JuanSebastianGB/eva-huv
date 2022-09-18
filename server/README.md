@@ -1,3 +1,9 @@
+## Setting DB
+
+```
+Environment variable NODE_ENV
+```
+
 ## Running seeds
 
 ```sh
