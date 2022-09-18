@@ -6,88 +6,128 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       name: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       image: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       code: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       oldCode: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       model: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       serial: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       cost: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       location: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       acquisitionDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       installationDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       warehouseReceiptDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       manufacturingDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       status: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       serviceId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: { tableName: 'Services' },
+          key: 'id',
+        },
+        allowNull: false,
       },
       areaId: {
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER,
+        references: {
+          model: { tableName: 'Services' },
+          key: 'id',
+        },
+        defaultValue: 0,
       },
       manualId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: { tableName: 'Manuals' },
+          key: 'id',
+        },
+        defaultValue: 0,
       },
       guideId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: { tableName: 'Guides' },
+          key: 'id',
+        },
+        defaultValue: 0,
       },
       ownerId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: { tableName: 'Owners' },
+          key: 'id',
+        },
       },
       finalDispositionId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       riskTypeId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: { tableName: 'RiskTypes' },
+          key: 'id',
+        },
       },
       biomedicalClassificationId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: { tableName: 'BiomedicalClassifications' },
+          key: 'id',
+        },
       },
       deviceStatusId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: { tableName: 'DeviceStatuses' },
+          key: 'id',
+        },
       },
       deviceTypeId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: { tableName: 'DeviceTypes' },
+          key: 'id',
+        },
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Devices');
-  }
+  },
 };

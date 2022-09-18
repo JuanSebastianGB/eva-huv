@@ -1,5 +1,5 @@
-'use strict';
 const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Provider extends Model {
     /**
@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Provider.hasMany(models.Acquisition);
+      Provider.hasMany(models.CorrectiveMaintenance);
     }
   }
   Provider.init(

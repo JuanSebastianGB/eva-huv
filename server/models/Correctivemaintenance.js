@@ -1,5 +1,5 @@
-'use strict';
 const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class CorrectiveMaintenance extends Model {
     /**
@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       CorrectiveMaintenance.belongsTo(models.Device);
+      CorrectiveMaintenance.belongsTo(models.Provider);
+
+      CorrectiveMaintenance.hasMany(models.SparePartNeed);
     }
   }
   CorrectiveMaintenance.init(

@@ -1,38 +1,45 @@
-'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Acquisitions', {
+    await queryInterface.createTable('SparePartNeeds', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      code: {
+      name: {
         type: Sequelize.STRING,
       },
-      file: {
-        type: Sequelize.STRING,
+      status: {
+        type: Sequelize.BOOLEAN,
       },
-      providerId: {
+      preventiveMaintenanceId: {
         type: Sequelize.INTEGER,
         references: {
-          model: { tableName: 'Providers' },
+          model: { tableName: 'PreventiveMaintenances' },
           key: 'id',
         },
       },
-      acquisitionDate: {
-        type: Sequelize.DATE,
-      },
-      acquisitionTypeId: {
+      ticketId: {
         type: Sequelize.INTEGER,
         references: {
-          model: { tableName: 'Acquisitions' },
+          model: { tableName: 'Tickets' },
           key: 'id',
         },
       },
-      externUrl: {
-        type: Sequelize.STRING,
+      noteId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: { tableName: 'Notes' },
+          key: 'id',
+        },
+      },
+      correctiveMaintenanceId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: { tableName: 'CorrectiveMaintenances' },
+          key: 'id',
+        },
       },
       createdAt: {
         allowNull: false,
@@ -45,6 +52,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Acquisitions');
+    await queryInterface.dropTable('SparePartNeeds');
   },
 };

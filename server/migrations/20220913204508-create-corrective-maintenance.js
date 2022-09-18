@@ -6,31 +6,39 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       reportDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       deadLineDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       deviceId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: { tableName: 'Devices' },
+          key: 'id',
+        },
       },
       providerId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references: {
+          model: { tableName: 'Providers' },
+          key: 'id',
+        },
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('CorrectiveMaintenances');
-  }
+  },
 };

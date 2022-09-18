@@ -1,7 +1,5 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class BiomedicalClassification extends Model {
     /**
@@ -10,14 +8,17 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      BiomedicalClassification.hasMany(models.Device);
     }
   }
-  BiomedicalClassification.init({
-    name: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'BiomedicalClassification',
-  });
+  BiomedicalClassification.init(
+    {
+      name: DataTypes.STRING,
+    },
+    {
+      sequelize,
+      modelName: 'BiomedicalClassification',
+    }
+  );
   return BiomedicalClassification;
 };

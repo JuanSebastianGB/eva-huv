@@ -33,7 +33,7 @@ npx sequelize-cli model:generate --name Device --attributes name:string,image:st
 ,manufacturingDate:date\
 ,status:integer\
 ,serviceId:integer\
-,areaId:string\
+,areaId:integer\
 ,manualId:integer\
 ,guideId:integer\
 ,ownerId:integer\
@@ -66,5 +66,5 @@ npx sequelize-cli model:generate --name CorrectiveMaintenance --attributes repor
 
 npx sequelize-cli model:generate --name Note --attributes description:string,file:string,deviceId:integer,userId:integer,noteDate:date
 
-npx sequelize-cli model:generate --name SparePartNeeded --attributes name:string,status:boolean,preventiveMaintenanceId:integer,ticketId:integer,noteId:integer,correctiveMaintenanceId:integer,noteId:integer
+npx sequelize-cli model:generate --name SparePartNeed --attributes name:string,status:boolean,preventiveMaintenanceId:integer,ticketId:integer,noteId:integer,correctiveMaintenanceId:integer
 

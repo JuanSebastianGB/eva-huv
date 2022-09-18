@@ -10,6 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Note.belongsTo(models.User);
       Note.belongsTo(models.Device);
+
+      Note.hasMany(models.SparePartNeed);
     }
   }
   Note.init(
