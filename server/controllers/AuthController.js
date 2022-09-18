@@ -1,36 +1,13 @@
 import { v4 as uuidv4 } from 'uuid';
-import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
 import redisClient from '../utils/redis';
-import jwt, { verify } from 'jsonwebtoken';
+import { decodeString, hashPasswd } from '../utils/auth';
 
 require('dotenv').config();
+
 const { JWT_SECRET } = process.env;
-
-const { User } = require('../models');
-
 const error = 'Unauthorized';
-
-/**
- * Decode a base64 encoded string into a utf-8 string.
- * @param string - The string to be decoded.
- * @returns The decoded string.
- */
-const decodeString = (string) => {
-  const result = Buffer.from(string, 'base64').toString('utf-8');
-  return result;
-};
-
-/**
- * It takes a string, hashes it, and returns the hash
- * @param pwd - The password to be hashed.
- * @returns The hashed password.
- */
-const hashPasswd = (pwd) => {
-  const hash = crypto.createHash('sha1');
-  const data = hash.update(pwd, 'utf-8');
-  const genHash = data.digest('hex');
-  return genHash;
-};
+const { User } = require('../models');
 
 class AuthController {
   /**
@@ -65,7 +42,8 @@ class AuthController {
    * It deletes the token from the redis database
    * @param req - The request object.
    * @param res - The response object.
-   * @returns the status code 204, which means that the request was successful, but there is no content
+   * @returns the status code 204, which means that the request
+   * was successful, but there is no content
    * to return.
    */
   static async getDisconnect(req, res) {
@@ -81,8 +59,10 @@ class AuthController {
   }
 
   /**
-   * It takes an email and password from the request body, hashes the password, and then checks if the
-   * user exists in the database. If the user exists, it creates a token and sends it back to the user
+   * It takes an email and password from the request body, hashes
+   * the password, and then checks if the   * user exists in the
+   * database. If the user exists, it creates a token and sends
+   * it back to the user
    * @param req - The request object.
    * @param res - The response object.
    * @returns A token
@@ -96,15 +76,17 @@ class AuthController {
 
     try {
       const user = await User.findAll({ where: { email } });
-      if (user.length === 0)
+      if (user.length === 0) {
         return res.status(401).json({ err: 'Not valid credentials' });
+      }
 
       const hashedPassword = hashPasswd(password);
 
       const userToFind = { email, password: hashedPassword };
       const userFound = await User.findAll({ where: userToFind });
-      if (userFound.length <= 0)
+      if (userFound.length <= 0) {
         return res.status(401).json({ error: 'Not valid credentials' });
+      }
 
       const { id } = userFound[0];
       const expiresIn = 86400;

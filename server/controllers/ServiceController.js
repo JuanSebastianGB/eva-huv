@@ -1,5 +1,4 @@
-const { Service } = require('../models');
-const { Area } = require('../models');
+const { Service, Area } = require('../models');
 
 class ServiceController {
   /**
@@ -13,8 +12,9 @@ class ServiceController {
     if (!name) res.status(400).json({ err: 'missing name' });
     try {
       const service = await Service.findAll({ where: { name } });
-      if (service.length > 0)
+      if (service.length > 0) {
         return res.status(400).json({ err: 'Already exists' });
+      }
 
       const response = await Service.create(req.body);
       return res.status(200).json({ response });
@@ -73,8 +73,9 @@ class ServiceController {
 
     try {
       const service = await Service.findAll({ where: { id } });
-      if (service.length === 0)
+      if (service.length === 0) {
         return res.status(401).json({ err: 'Not Found' });
+      }
       const response = await Service.destroy({ where: { id } });
       return res.status(200).json({ response });
     } catch (err) {
@@ -93,8 +94,9 @@ class ServiceController {
 
     try {
       const service = await Service.findAll({ where: { id } });
-      if (service.length === 0)
+      if (service.length === 0) {
         return res.status(401).json({ err: 'Not Found' });
+      }
       const response = await Service.update(req.body, { where: { id } });
       return res.status(200).json({ response });
     } catch (err) {
