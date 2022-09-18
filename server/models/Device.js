@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       Device.hasMany(models.CorrectiveMaintenance);
       Device.hasMany(models.File);
       Device.hasMany(models.Note);
-      Device.hasMany(models.Tickets);
+      Device.hasMany(models.Ticket);
     }
   }
   Device.init(
