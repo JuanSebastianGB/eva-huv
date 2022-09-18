@@ -103,6 +103,17 @@ class ServiceController {
       return res.status(401).json({ err });
     }
   }
+
+  /**
+   * It returns the number of services in the database
+   * @param req - The request object.
+   * @param res - The response object.
+   * @returns The quantity of services in the database.
+   */
+  static async getCount(req, res) {
+    const quantity = await Service.count();
+    return res.status(200).json({ quantity });
+  }
 }
 
 export default ServiceController;

@@ -20,9 +20,9 @@ class AreaController {
       }
 
       const response = await Area.create(req.body);
-      return res.status(200).json({ response });
+      return res.status(201).json({ response });
     } catch (err) {
-      return res.status(401).json({ err });
+      return res.status(400).json({ err });
     }
   }
 
@@ -40,7 +40,7 @@ class AreaController {
       });
       return res.status(200).json(area);
     } catch (err) {
-      return res.status(401).json({ err });
+      return res.status(400).json({ err });
     }
   }
 
@@ -53,7 +53,7 @@ class AreaController {
     let { id } = req.params;
     id = parseFloat(id);
     if (Number.isNaN(id)) {
-      return res.status(401).json({ err: 'id must be a number' });
+      return res.status(400).json({ err: 'id must be a number' });
     }
     try {
       const area = await Area.findAll({
@@ -61,10 +61,10 @@ class AreaController {
         attributes: ['name'],
         include: [Service],
       });
-      if (!area) return res.status(401).json({ err: 'Not Found' });
+      if (!area) return res.status(400).json({ err: 'Not Found' });
       return res.status(200).json({ area: area[0] });
     } catch (err) {
-      return res.status(401).json({ err });
+      return res.status(400).json({ err });
     }
   }
 
@@ -79,11 +79,11 @@ class AreaController {
 
     try {
       const area = await Area.findAll({ where: { id } });
-      if (area.length === 0) return res.status(401).json({ err: 'Not Found' });
+      if (area.length === 0) return res.status(400).json({ err: 'Not Found' });
       const response = await Area.destroy({ where: { id } });
       return res.status(200).json({ response });
     } catch (err) {
-      return res.status(401).json({ err });
+      return res.status(400).json({ err });
     }
   }
 
@@ -95,15 +95,34 @@ class AreaController {
    */
   static async update(req, res) {
     const { id } = req.params;
+    const { serviceId } = req.body;
+
+    if (!serviceId) return res.status(400).json({ err: 'required serviceId' });
     try {
       const area = await Area.findAll({ where: { id } });
+      if (area.length === 0) return res.status(400).json({ err: 'Not Found' });
 
-      if (area.length === 0) return res.status(401).json({ err: 'Not Found' });
+      const service = await Service.findAll({ where: { id: serviceId } });
+      if (service.length === 0) {
+        return res.status(400).json({ err: 'missing service' });
+      }
+
       const response = await Area.update(req.body, { where: { id } });
-      return res.status(200).json({ response });
+      return res.status(201).json({ response });
     } catch (err) {
-      return res.status(401).json({ err });
+      return res.status(400).json({ err });
     }
+  }
+
+  /**
+   * It returns the number of areas in the database
+   * @param req - The request object.
+   * @param res - The response object.
+   * @returns The quantity of areas in the database.
+   */
+  static async getCount(req, res) {
+    const quantity = await Area.count();
+    return res.status(200).json({ quantity });
   }
 }
 

@@ -38,12 +38,14 @@ router.post('/users', UsersController.postNew);
 router.get('/users', UsersController.getAll);
 router.get('/users/:email', UsersController.getOne);
 
+router.get('/areas/count', [verifyToken], AreaController.getCount);
 router.get('/areas', [verifyToken], AreaController.getAll);
 router.get('/areas/:id', [verifyToken], AreaController.getOne);
 router.post('/areas', [verifyToken], AreaController.create);
 router.put('/areas/:id', [verifyToken], AreaController.update);
 router.delete('/areas/:id', [verifyToken], AreaController.deleteOne);
 
+router.get('/services/count', [verifyToken], ServiceController.getCount);
 router.get('/services', [verifyToken], ServiceController.getAll);
 router.get('/services/:id', [verifyToken], ServiceController.getOne);
 router.post('/services', [verifyToken], ServiceController.create);
