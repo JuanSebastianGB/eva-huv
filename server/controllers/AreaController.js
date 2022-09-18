@@ -1,10 +1,10 @@
-const { Area } = require('../models');
-const { Service } = require('../models');
+const { Area, Service } = require('../models');
 
 class AreaController {
   /**
    * It creates a new area if the name doesn't already exist
-   * @param req - The request object. This contains information about the HTTP request that raised the
+   * @param req - The request object. This contains information
+   * about the HTTP request that raised the
    * event.
    * @param res - The response object.
    * @returns The area is being returned.
@@ -15,8 +15,9 @@ class AreaController {
     if (!name) res.status(400).json({ err: 'missing name' });
     try {
       const area = await Area.findAll({ where: { name } });
-      if (area.length > 0)
+      if (area.length > 0) {
         return res.status(400).json({ err: 'Already exists' });
+      }
 
       const response = await Area.create(req.body);
       return res.status(200).json({ response });
@@ -51,9 +52,15 @@ class AreaController {
   static async getOne(req, res) {
     let { id } = req.params;
     id = parseFloat(id);
-    if (isNaN(id)) return res.status(401).json({ err: 'id must be a number' });
+    if (Number.isNaN(id)) {
+      return res.status(401).json({ err: 'id must be a number' });
+    }
     try {
-      const area = await Area.findAll({ where: { id }, attributes: ['name'] });
+      const area = await Area.findAll({
+        where: { id },
+        attributes: ['name'],
+        include: [Service],
+      });
       if (!area) return res.status(401).json({ err: 'Not Found' });
       return res.status(200).json({ area: area[0] });
     } catch (err) {

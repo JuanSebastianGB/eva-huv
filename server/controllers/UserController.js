@@ -1,22 +1,10 @@
-import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
+import { hashPasswd } from '../utils/auth';
 
-require('dotenv').config();
 const { JWT_SECRET } = process.env;
+require('dotenv').config();
 
 const { User } = require('../models');
-
-/**
- * It takes a string, hashes it, and returns the hash
- * @param pwd - The password to be hashed.
- * @returns The hashed password.
- */
-const hashPasswd = (pwd) => {
-  const hash = crypto.createHash('sha1');
-  const data = hash.update(pwd, 'utf-8');
-  const genHash = data.digest('hex');
-  return genHash;
-};
 
 class UsersController {
   /**
