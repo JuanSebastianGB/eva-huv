@@ -1,23 +1,24 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class TicketStatus extends Model {
+  class DeviceType extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      DeviceType.hasMany(models.Device);
     }
   }
-  TicketStatus.init({
-    name: DataTypes.STRING
-  }, {
-    sequelize,
-    modelName: 'TicketStatus',
-  });
-  return TicketStatus;
+  DeviceType.init(
+    {
+      name: DataTypes.STRING,
+    },
+    {
+      sequelize,
+      modelName: 'DeviceType',
+    }
+  );
+  return DeviceType;
 };

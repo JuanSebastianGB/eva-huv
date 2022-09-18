@@ -1,7 +1,5 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Calibration extends Model {
     /**
@@ -10,17 +8,20 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Calibration.belongsTo(models.Device);
     }
   }
-  Calibration.init({
-    description: DataTypes.STRING,
-    file: DataTypes.STRING,
-    deviceId: DataTypes.INTEGER,
-    calibrationDate: DataTypes.DATE
-  }, {
-    sequelize,
-    modelName: 'Calibration',
-  });
+  Calibration.init(
+    {
+      description: DataTypes.STRING,
+      file: DataTypes.STRING,
+      deviceId: DataTypes.INTEGER,
+      calibrationDate: DataTypes.DATE,
+    },
+    {
+      sequelize,
+      modelName: 'Calibration',
+    }
+  );
   return Calibration;
 };
