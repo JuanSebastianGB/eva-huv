@@ -10,15 +10,19 @@ module.exports = {
       },
       read: {
         type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       update: {
         type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       delete: {
         type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       create: {
         type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       userId: {
         type: Sequelize.INTEGER,
