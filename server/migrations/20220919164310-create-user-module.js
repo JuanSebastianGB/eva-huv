@@ -16,7 +16,7 @@ module.exports = {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
       },
-      delete: {
+      del: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
       },

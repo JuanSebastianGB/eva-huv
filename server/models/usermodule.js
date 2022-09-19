@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       read: DataTypes.BOOLEAN,
       update: DataTypes.BOOLEAN,
-      delete: DataTypes.BOOLEAN,
+      del: DataTypes.BOOLEAN,
       create: DataTypes.BOOLEAN,
       userId: DataTypes.INTEGER,
       moduleId: DataTypes.INTEGER,

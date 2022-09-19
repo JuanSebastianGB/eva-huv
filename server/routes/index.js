@@ -7,7 +7,7 @@ const ServiceController = require('../controllers/ServiceController');
 const FileController = require('../controllers/FileController');
 const StudentController = require('../controllers/StudentController');
 const ClassRoomController = require('../controllers/ClassRoomController');
-const verifyToken = require('../middlewares/authJwt.js');
+const verifyToken = require('../middlewares/authJwt');
 
 const router = express.Router();
 
@@ -31,6 +31,7 @@ router.get('/random', AppController.randomNumber);
 
 router.get('/connect', AuthController.getConnect);
 router.get('/disconnect', AuthController.getDisconnect);
+router.get('/permissions', AuthController.getPermission);
 router.post('/signup', AuthController.signUp);
 
 router.post('/users', UsersController.postNew);
