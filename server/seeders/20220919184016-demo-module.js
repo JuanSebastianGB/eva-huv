@@ -1,17 +1,35 @@
-'use strict';
-
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert(
       'Modules',
       [
         {
+          name: 'Area',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          name: 'Calibration',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          name: 'Device',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          name: 'Guide',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
           name: 'Service',
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
-          name: 'Area',
+          name: 'User',
           createdAt: new Date(),
           updatedAt: new Date(),
         },
@@ -21,11 +39,6 @@ module.exports = {
   },
 
   async down(queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
+    await queryInterface.bulkDelete('Modules', null, {});
   },
 };

@@ -5,6 +5,7 @@ const { JWT_SECRET } = process.env;
 require('dotenv').config();
 
 const { User, Module, Note } = require('../models');
+const { createPermissions } = require('../utils/auth');
 
 class UsersController {
   /**
@@ -29,6 +30,10 @@ class UsersController {
     const { id } = userCreated;
     const expiresIn = 86400;
     const token = sign({ id }, JWT_SECRET, { expiresIn });
+
+    const modules = await Module.findAll();
+    await createPermissions(id, modules);
+
     return res.json({ token });
   }
 
@@ -54,7 +59,10 @@ class UsersController {
    */
   static async getOne(req, res) {
     const { email } = req.params;
-    const user = await User.findAll({ where: { email } });
+    const user = await User.findAll({
+      where: { email },
+      include: [Module, Note],
+    });
     return res.json({ user });
   }
 }
