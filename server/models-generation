@@ -75,3 +75,7 @@ npx sequelize-cli model:generate --name StudentClassRoom --attributes studentId:
 
 
 npx sequelize-cli model:generate --name DeviceManual --attributes deviceId:integer,manualId:integer
+
+
+npx sequelize-cli model:generate --name Module --attributes name:string
+npx sequelize-cli model:generate --name UserModule --attributes read:boolean,update:boolean,delete:boolean,create:boolean,userId:integer,moduleId:integer

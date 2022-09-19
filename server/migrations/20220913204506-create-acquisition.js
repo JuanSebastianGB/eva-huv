@@ -26,7 +26,7 @@ module.exports = {
       acquisitionTypeId: {
         type: Sequelize.INTEGER,
         references: {
-          model: { tableName: 'Acquisitions' },
+          model: { tableName: 'AcquisitionTypes' },
           key: 'id',
         },
       },
