@@ -116,4 +116,4 @@ class ServiceController {
   }
 }
 
-export default ServiceController;
+module.exports = ServiceController;

@@ -1,4 +1,4 @@
-import redisClient from '../utils/redis';
+const redisClient = require('../utils/redis');
 
 class AppController {
   /**
@@ -31,4 +31,4 @@ class AppController {
   }
 }
 
-export default AppController;
+module.exports = AppController;

@@ -1,4 +1,4 @@
-import multer from 'multer';
+const multer = require('multer');
 
 /**
  * It takes a directory name as an argument and returns a multer storage
@@ -18,4 +18,4 @@ const makeMulterConfig = (dirName) => {
   return storage;
 };
 
-export default makeMulterConfig;
+module.exports = makeMulterConfig;

@@ -1,5 +1,5 @@
-import jwt from 'jsonwebtoken';
-import { hashPasswd } from '../utils/auth';
+const jwt = require('jsonwebtoken');
+const { hashPasswd } = require('../utils/auth.js');
 
 const { JWT_SECRET } = process.env;
 require('dotenv').config();
@@ -56,4 +56,4 @@ class UsersController {
     return res.json({ user });
   }
 }
-export default UsersController;
+module.exports = UsersController;

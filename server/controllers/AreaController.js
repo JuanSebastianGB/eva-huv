@@ -126,4 +126,4 @@ class AreaController {
   }
 }
 
-export default AreaController;
+module.exports = AreaController;

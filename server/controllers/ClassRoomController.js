@@ -16,4 +16,4 @@ class ClassRoomController {
     }
   }
 }
-export default ClassRoomController;
+module.exports = ClassRoomController;

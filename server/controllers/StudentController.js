@@ -19,4 +19,4 @@ class StudentController {
   }
 }
 
-export default StudentController;
+module.exports = StudentController;

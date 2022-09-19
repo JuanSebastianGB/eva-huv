@@ -1,5 +1,5 @@
-import multer from 'multer';
-import makeMulterConfig from '../utils/files';
+const multer = require('multer');
+const makeMulterConfig = require('../utils/files.js');
 
 class FileController {
   /**
@@ -15,4 +15,4 @@ class FileController {
   }
 }
 
-export default FileController;
+module.exports = FileController;
