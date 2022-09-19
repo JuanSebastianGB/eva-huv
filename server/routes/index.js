@@ -1,19 +1,18 @@
-import express from 'express';
-import AppController from '../controllers/AppController';
-import AuthController from '../controllers/AuthController';
-import UsersController from '../controllers/UserController';
-import AreaController from '../controllers/AreaController';
-import ServiceController from '../controllers/ServiceController';
-import FileController from '../controllers/FileController';
-import StudentController from '../controllers/StudentController';
-import ClassRoomController from '../controllers/ClassRoomController';
-
-import { verifyToken } from '../middlewares/authJwt';
+const express = require('express');
+const AppController = require('../controllers/AppController');
+const AuthController = require('../controllers/AuthController');
+const UsersController = require('../controllers/UserController');
+const AreaController = require('../controllers/AreaController');
+const ServiceController = require('../controllers/ServiceController');
+const FileController = require('../controllers/FileController');
+const StudentController = require('../controllers/StudentController');
+const ClassRoomController = require('../controllers/ClassRoomController');
+const verifyToken = require('../middlewares/authJwt.js');
 
 const router = express.Router();
 
 /** Many To Many implementation */
-router.get('/students', StudentController.getAll);
+router.get('/students', [verifyToken], StudentController.getAll);
 router.get('/classrooms', ClassRoomController.getAll);
 
 router.post(
@@ -52,4 +51,4 @@ router.post('/services', [verifyToken], ServiceController.create);
 router.put('/services/:id', [verifyToken], ServiceController.update);
 router.delete('/services/:id', [verifyToken], ServiceController.deleteOne);
 
-export default router;
+module.exports = router;

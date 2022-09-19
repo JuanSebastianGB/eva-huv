@@ -1,7 +1,7 @@
-import { v4 as uuidv4 } from 'uuid';
-import jwt from 'jsonwebtoken';
-import redisClient from '../utils/redis';
-import { decodeString, hashPasswd } from '../utils/auth';
+const { v4: uuidv4 } = require('uuid');
+const jwt = require('jsonwebtoken');
+const redisClient = require('../utils/redis.js');
+const { decodeString, hashPasswd } = require('../utils/auth.js');
 
 require('dotenv').config();
 
@@ -99,4 +99,4 @@ class AuthController {
   }
 }
 
-export default AuthController;
+module.exports = AuthController;

@@ -17,7 +17,7 @@ class ServiceController {
       }
 
       const response = await Service.create(req.body);
-      return res.status(200).json({ response });
+      return res.status(201).json({ response });
     } catch (err) {
       return res.status(401).json({ err });
     }
@@ -116,4 +116,4 @@ class ServiceController {
   }
 }
 
-export default ServiceController;
+module.exports = ServiceController;
