@@ -1,5 +1,6 @@
+/* eslint-disable object-curly-newline */
 const crypto = require('crypto');
-const { UserModule } = require('../models');
+const { Module, User, UserModule } = require('../models');
 
 /**
  * Decode a base64 encoded string into a utf-8 string.
@@ -34,4 +35,28 @@ exports.createPermissions = (UserId, modules) => {
     const user = { UserId, ModuleId };
     await UserModule.create(user);
   });
+};
+
+/* A function that takes a user id and returns an object with the permissions of the user. */
+exports.getPermissions = async (userId) => {
+  const modules = await User.findAll({
+    where: { id: userId },
+    include: [Module],
+    raw: true,
+    nest: true,
+  });
+  const permissions = {};
+  modules.forEach((module) => {
+    const { name } = module.Modules;
+    const { read, update, del, create } = module.Modules.UserModule;
+    if (!(module in permissions)) {
+      permissions[name] = {
+        read,
+        update,
+        del,
+        create,
+      };
+    }
+  });
+  return permissions;
 };
