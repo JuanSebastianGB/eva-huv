@@ -40,19 +40,34 @@ describe('API', () => {
       done();
     });
   });
-  describe('post /services', () => {
-    it('create a new service', (done) => {
-      Service.destroy({ where: { name: 'New service' } });
+  describe('delete /services/1', () => {
+    it('delete a service By Id', (done) => {
       request(app)
-        .post('/services')
-        .send({ name: 'New service' })
+        .delete('/services/1')
         .set('skip', true)
-        .expect('Content-Type', /json/)
-        .expect(201)
+        .expect('Content-Type', '/json/')
+        .expect(200)
         .end((err, res) => {
-          if (err) throw err;
+          const { text } = res;
+          const response = JSON.parse(text);
+          console.log({ response });
+          done();
         });
-      return done();
     });
   });
+  // describe('post /services', () => {
+  //   it('create a new service', (done) => {
+  //     Service.destroy({ where: { name: 'New service' } });
+  //     request(app)
+  //       .post('/services')
+  //       .send({ name: 'New service' })
+  //       .set('skip', true)
+  //       .expect('Content-Type', /json/)
+  //       .expect(201)
+  //       .end((err, res) => {
+  //         if (err) throw err;
+  //       });
+  //     return done();
+  //   });
+  // });
 });
