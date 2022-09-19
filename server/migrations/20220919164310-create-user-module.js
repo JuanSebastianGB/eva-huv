@@ -1,37 +1,42 @@
+'use strict';
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Acquisitions', {
+    await queryInterface.createTable('UserModules', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      code: {
-        type: Sequelize.STRING,
+      read: {
+        type: Sequelize.BOOLEAN,
       },
-      file: {
-        type: Sequelize.STRING,
+      update: {
+        type: Sequelize.BOOLEAN,
       },
-      providerId: {
+      delete: {
+        type: Sequelize.BOOLEAN,
+      },
+      create: {
+        type: Sequelize.BOOLEAN,
+      },
+      userId: {
         type: Sequelize.INTEGER,
         references: {
-          model: { tableName: 'Providers' },
+          model: { tableName: 'Users' },
           key: 'id',
+          onDelete: 'CASCADE',
+          onUpdate: 'CASCADE',
         },
       },
-      acquisitionDate: {
-        type: Sequelize.DATE,
-      },
-      acquisitionTypeId: {
+      moduleId: {
         type: Sequelize.INTEGER,
         references: {
-          model: { tableName: 'AcquisitionTypes' },
+          model: { tableName: 'Modules' },
           key: 'id',
+          onDelete: 'CASCADE',
+          onUpdate: 'CASCADE',
         },
-      },
-      externUrl: {
-        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
@@ -44,6 +49,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Acquisitions');
+    await queryInterface.dropTable('UserModules');
   },
 };

@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
-const { hashPasswd } = require('../utils/auth.js');
+const { hashPasswd } = require('../utils/auth');
 
 const { JWT_SECRET } = process.env;
 require('dotenv').config();
 
-const { User } = require('../models');
+const { User, Module, Note } = require('../models');
 
 class UsersController {
   /**
@@ -40,7 +40,9 @@ class UsersController {
    * @returns An array of all users in the database.
    */
   static async getAll(req, res) {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      include: [Module, Note],
+    });
     return res.json({ users });
   }
 
