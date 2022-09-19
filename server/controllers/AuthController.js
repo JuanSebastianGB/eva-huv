@@ -1,7 +1,8 @@
 const { v4: uuidv4 } = require('uuid');
 const jwt = require('jsonwebtoken');
-const redisClient = require('../utils/redis.js');
-const { decodeString, hashPasswd } = require('../utils/auth.js');
+const redisClient = require('../utils/redis');
+const { decodeString, hashPasswd } = require('../utils/auth');
+const { getPermissionsAfterToken } = require('../utils/auth');
 
 require('dotenv').config();
 
@@ -96,6 +97,23 @@ class AuthController {
     } catch (error) {
       return res.status(403).json({ error });
     }
+  }
+
+  /**
+   * It gets the permissions of the user after verifying the token
+   * @param req - The request object
+   * @param res - The response object.
+   * @returns The permissions of the user
+   */
+  static async getPermission(req, res) {
+    const { headers } = req;
+    const { verify } = jwt;
+    const token = headers['x-access-token'];
+    if (!token) return res.status(403).json({ message: 'token required' });
+    const verifiedToken = verify(token, JWT_SECRET);
+    const { id } = verifiedToken;
+    const permissions = await getPermissionsAfterToken(id);
+    return res.status(200).json(permissions);
   }
 }
 

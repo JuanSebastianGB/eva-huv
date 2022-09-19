@@ -38,7 +38,7 @@ exports.createPermissions = (UserId, modules) => {
 };
 
 /* A function that takes a user id and returns an object with the permissions of the user. */
-exports.getPermissions = async (userId) => {
+exports.getPermissionsAfterToken = async (userId) => {
   const modules = await User.findAll({
     where: { id: userId },
     include: [Module],

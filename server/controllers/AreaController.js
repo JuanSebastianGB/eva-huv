@@ -1,5 +1,5 @@
 const { Area, Service } = require('../models');
-const { getPermissions } = require('../utils/auth');
+const { getPermissionsAfterToken } = require('../utils/auth');
 
 class AreaController {
   /**
@@ -35,7 +35,7 @@ class AreaController {
    */
   static async getAll(req, res) {
     const { userId } = req;
-    const permissions = await getPermissions(userId);
+    const permissions = await getPermissionsAfterToken(userId);
     console.log(permissions);
 
     try {
