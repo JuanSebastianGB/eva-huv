@@ -62,14 +62,6 @@ module.exports = {
         },
         defaultValue: 0,
       },
-      manualId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: { tableName: 'Manuals' },
-          key: 'id',
-        },
-        defaultValue: 0,
-      },
       guideId: {
         type: Sequelize.INTEGER,
         references: {

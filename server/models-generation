@@ -34,7 +34,6 @@ npx sequelize-cli model:generate --name Device --attributes name:string,image:st
 ,status:integer\
 ,serviceId:integer\
 ,areaId:integer\
-,manualId:integer\
 ,guideId:integer\
 ,ownerId:integer\
 ,finalDispositionId:integer\
@@ -73,3 +72,6 @@ npx sequelize-cli model:generate --name ClassRoom --attributes name:string
 npx sequelize-cli model:generate --name StudentClassRoom --attributes studentId:integer\
 ,classRoomId:integer\
 ,id:uuid
+
+
+npx sequelize-cli model:generate --name DeviceManual --attributes deviceId:integer,manualId:integer

@@ -24,6 +24,10 @@ module.exports = (sequelize, DataTypes) => {
       Device.hasMany(models.File);
       Device.hasMany(models.Note);
       Device.hasMany(models.Ticket);
+
+      Device.belongsToMany(models.Manual, {
+        through: models.DeviceManual,
+      });
     }
   }
   Device.init(

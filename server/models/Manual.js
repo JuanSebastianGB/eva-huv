@@ -8,7 +8,9 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Manual.belongsToMany(models.Device, {
+        through: models.DeviceManual,
+      });
     }
   }
   Manual.init(
