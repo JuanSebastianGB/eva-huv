@@ -56,24 +56,49 @@ describe('API', () => {
   });
   describe('Delete /services/:id', () => {
     it('Delete an specific service successfully', async () => {
-      const { body, status } = await request(app)
+      const { body } = await request(app)
         .post('/services')
         .send({ name: 'test service' })
         .set('skip', true);
       const { response } = body;
       const { id } = response;
-      const { body: bodyDelete } = await request(app)
+      const { body: bodyDelete, status } = await request(app)
         .delete(`/services/${id}`)
         .set('skip', true);
       const { response: responseDelete } = bodyDelete;
       await expect(responseDelete).to.equal(1);
+      await expect(status).to.equal(200);
     });
     it("Delete an specific service when this doesn't exists", async () => {
-      const { body } = await request(app)
+      const { body, status } = await request(app)
         .delete('/services/1')
         .set('skip', true);
       const { err } = body;
       await expect(err).to.equal('Not Found');
+      await expect(status).to.equal(401);
+    });
+    it('PUT /services/1 must change the content of an specific service', async () => {
+      const originalName = 'test service';
+      const changedName = 'test service changed';
+      const { body } = await request(app)
+        .post('/services')
+        .send({ name: originalName })
+        .set('skip', true);
+      const { response } = body;
+      const { id } = response;
+
+      const { status } = await request(app)
+        .put(`/services/${id}`)
+        .send({ name: changedName })
+        .set('skip', true);
+
+      const { body: serviceChanged } = await request(app)
+        .get(`/services/${id}`)
+        .set('skip', true);
+
+      console.log(serviceChanged.service.name);
+      await expect(status).to.equal(200);
+      await expect(serviceChanged.service.name).to.equal(changedName);
     });
   });
 });
