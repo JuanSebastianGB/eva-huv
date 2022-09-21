@@ -1,73 +1,119 @@
+/* eslint-disable jest/lowercase-name */
+/* eslint-disable jest/valid-describe */
+/* eslint-disable jest/no-commented-out-tests */
+/* eslint-disable jest/valid-expect */
 /* eslint-disable jest/prefer-expect-assertions */
 /* eslint-disable jest/expect-expect */
 /* eslint-disable jest/no-test-callback */
 /* eslint-disable no-unused-vars */
 /* eslint-disable jest/no-hooks */
 
-// const chai = require('chai');
-// const request = require('request');
-// require('dotenv').config();
+const chai = require('chai');
+const request = require('supertest');
+const app = require('../server');
 
-// const PORT = process.env.PORT || 5000;
-// const URL = `http://localhost:${PORT}`;
+const { expect } = chai;
+const { Area, Service } = require('../models');
 
-// let headers;
-// let method;
+const truncateModels = async () => {
+  await Area.destroy({ where: {}, force: true });
+  await Service.destroy({ where: {}, force: true });
+};
 
-// describe('test suit for areas endpoint', () => {
-//   beforeEach(() => {
-//     headers = {
-//       Accept: 'application/json',
-//       skip: true,
-//     };
-//     method = 'GET';
-//   });
-
-//   it('get /areas must return status code 200', (done) => {
-//     const url = `${URL}/areas`;
-//     const options = { url, method, headers };
-//     request(options, (err, res, body) => {
-//       chai.expect(res.statusCode).to.equal(200);
-//       done();
-//     });
-//   });
-//   it('get /areas must return a list', (done) => {
-//     const url = `${URL}/areas`;
-//     const options = { url, method, headers };
-//     request(options, (err, res, body) => {
-//       const jsonObject = JSON.parse(body);
-//       chai.expect(Array.isArray(jsonObject)).to.equal(true);
-//       done();
-//     });
-//   });
-//   it('get /areas/:id must return a json object with "area" key and an object value', (done) => {
-//     const url = `${URL}/areas/1`;
-//     const options = { url, method, headers };
-//     request(options, (err, res, body) => {
-//       const jsonObject = JSON.parse(body);
-//       chai.expect(Object.keys(jsonObject).includes('area')).to.equal(true);
-//       chai.expect(typeof jsonObject.area).to.equal('object');
-//       done();
-//     });
-//   });
-//   it('get /areas/:id should return an error if id is not valid', (done) => {
-//     const url = `${URL}/areas/hello`;
-//     const options = { url, method, headers };
-//     request(options, (err, res, body) => {
-//       const jsonObject = JSON.parse(body);
-//       chai.expect(typeof jsonObject).to.equal('object');
-//       chai.expect(Object.keys(jsonObject).length).to.equal(1);
-//       chai.expect(jsonObject.err).to.equal('id must be a number');
-//       done();
-//     });
-//   });
-//   it('get /areas/:id most give an empty object when id is not found', (done) => {
-//     const url = `${URL}/areas/99999999999999`;
-//     const options = { url, method, headers };
-//     request(options, (err, res, body) => {
-//       const jsonObject = JSON.parse(body);
-//       chai.expect(Object.entries(jsonObject).length).to.equal(0);
-//       done();
-//     });
-//   });
-// });
+describe('API Areas', () => {
+  // beforeEach(async () => truncateModels());
+  // describe('Get /areas Get all', async () => {
+  //   it('returns the areas', async () => {
+  //     const { body, status } = await request(app)
+  //       .get('/areas')
+  //       .set('skip', true);
+  //     const { data } = body;
+  //     expect(status).to.equal(200);
+  //     expect(Array.isArray(body)).to.equal(true);
+  //   });
+  // });
+  // describe('Get /areas Get By Id', async () => {
+  //   it('returns the area', async () => {
+  //     const { body, status } = await request(app)
+  //       .get('/areas/id')
+  //       .set('skip', true);
+  //     const { data } = body;
+  //     await expect(status).to.equal(200);
+  //     await expect(typeof body).to.equal('object');
+  //   });
+  // });
+  // describe('Post /areas', async () => {
+  //   it('create a new area called test area', async () => {
+  //     const { body, status } = await request(app)
+  //       .post('/areas')
+  //       .send({ name: 'test area' })
+  //       .set('skip', true);
+  //     const { response } = body;
+  //     const { id } = response;
+  //     await expect(status).to.equal(201);
+  //     await expect(typeof body).to.equal('object');
+  //   });
+  // });
+  // describe('Delete /areas/:id', () => {
+  //   it('Delete an specific area successfully', async () => {
+  //     const { body } = await request(app)
+  //       .post('/areas')
+  //       .send({ name: 'test area' })
+  //       .set('skip', true);
+  //     const { response } = body;
+  //     const { id } = response;
+  //     const { body: bodyDelete, status } = await request(app)
+  //       .delete(`/areas/${id}`)
+  //       .set('skip', true);
+  //     const { response: responseDelete } = bodyDelete;
+  //     await expect(responseDelete).to.equal(1);
+  //     await expect(status).to.equal(200);
+  //   });
+  //   it("Delete an specific area when this doesn't exists", async () => {
+  //     const { body, status } = await request(app)
+  //       .delete('/areas/1')
+  //       .set('skip', true);
+  //     const { err } = body;
+  //     await expect(err).to.equal('Not Found');
+  //     await expect(status).to.equal(401);
+  //   });
+  //   it('PUT /areas/1 must change the content of an specific area', async () => {
+  //     const originalName = 'test area';
+  //     const changedName = 'test area changed';
+  //     const { body } = await request(app)
+  //       .post('/areas')
+  //       .send({ name: originalName })
+  //       .set('skip', true);
+  //     const { response } = body;
+  //     const { id } = response;
+  //     const { status } = await request(app)
+  //       .put(`/areas/${id}`)
+  //       .send({ name: changedName })
+  //       .set('skip', true);
+  //     const { body: serviceChanged } = await request(app)
+  //       .get(`/areas/${id}`)
+  //       .set('skip', true);
+  //     await expect(status).to.equal(200);
+  //     await expect(serviceChanged.service.name).to.equal(changedName);
+  //   });
+  // });
+  // it('PUT /areas/:id must change the content of an specific service', async () => {
+  //   const originalName = 'test service';
+  //   const changedName = 'test service changed';
+  //   const { body } = await request(app)
+  //     .post('/areas')
+  //     .send({ name: originalName })
+  //     .set('skip', true);
+  //   const { response } = body;
+  //   const { id } = response;
+  //   const { status } = await request(app)
+  //     .put(`/areas/${id}`)
+  //     .send({ name: changedName })
+  //     .set('skip', true);
+  //   const { body: serviceChanged } = await request(app)
+  //     .get(`/areas/${id}`)
+  //     .set('skip', true);
+  //   await expect(status).to.equal(200);
+  //   await expect(serviceChanged.service.name).to.equal(changedName);
+  // });
+});

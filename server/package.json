@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test  mocha --recursive --watch",
+    "test": "NODE_ENV=test  mocha --timeout 10000 --recursive --watch",
     "start": "nodemon server.js",
     "start-server": "env NODE_ENV=development  nodemon --exec babel-node --presets @babel/preset-env server.js",
     "start-test-server": "env NODE_ENV=test  nodemon --exec babel-node --presets @babel/preset-env server.js",

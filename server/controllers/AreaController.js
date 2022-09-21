@@ -1,5 +1,4 @@
 const { Area, Service } = require('../models');
-const { getPermissionsAfterToken } = require('../utils/auth');
 
 class AreaController {
   /**
@@ -34,10 +33,6 @@ class AreaController {
    * @returns All the areas in the database.
    */
   static async getAll(req, res) {
-    const { userId } = req;
-    const permissions = await getPermissionsAfterToken(userId);
-    console.log(permissions);
-
     try {
       const area = await Area.findAll({
         include: [{ model: Service }],
