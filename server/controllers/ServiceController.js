@@ -19,7 +19,7 @@ class ServiceController {
       const response = await Service.create(req.body);
       return res.status(201).json({ response });
     } catch (err) {
-      return res.status(401).json({ err });
+      return res.status(400).json({ err });
     }
   }
 
@@ -37,7 +37,7 @@ class ServiceController {
       });
       return res.status(200).json(service);
     } catch (err) {
-      return res.status(401).json({ err });
+      return res.status(400).json({ err });
     }
   }
 
@@ -48,17 +48,21 @@ class ServiceController {
    * @returns The name of the service with the id that was passed in the params.
    */
   static async getOne(req, res) {
-    const { id } = req.params;
+    let { id } = req.params;
+    id = parseFloat(id);
+    if (Number.isNaN(id)) {
+      return res.status(400).json({ err: 'id must be a number' });
+    }
     try {
       const service = await Service.findAll({
         where: { id },
         include: [{ model: Area }],
         attributes: ['name'],
       });
-      if (!service) return res.status(401).json({ err: 'Not Found' });
+      if (!service) return res.status(400).json({ err: 'Not Found' });
       return res.status(200).json({ service: service[0] });
     } catch (err) {
-      return res.status(401).json({ err });
+      return res.status(400).json({ err });
     }
   }
 
@@ -74,12 +78,12 @@ class ServiceController {
     try {
       const service = await Service.findAll({ where: { id } });
       if (service.length === 0) {
-        return res.status(401).json({ err: 'Not Found' });
+        return res.status(400).json({ err: 'Not Found' });
       }
       const response = await Service.destroy({ where: { id } });
       return res.status(200).json({ response });
     } catch (err) {
-      return res.status(401).json({ err });
+      return res.status(400).json({ err });
     }
   }
 
@@ -90,17 +94,20 @@ class ServiceController {
    * @returns The response is being returned.
    */
   static async update(req, res) {
-    const { id } = req.params;
-
+    let { id } = req.params;
+    id = parseFloat(id);
+    if (Number.isNaN(id)) {
+      return res.status(400).json({ err: 'id must be a number' });
+    }
     try {
       const service = await Service.findAll({ where: { id } });
       if (service.length === 0) {
-        return res.status(401).json({ err: 'Not Found' });
+        return res.status(400).json({ err: 'Not Found' });
       }
       const response = await Service.update(req.body, { where: { id } });
       return res.status(200).json({ response });
     } catch (err) {
-      return res.status(401).json({ err });
+      return res.status(400).json({ err });
     }
   }
 

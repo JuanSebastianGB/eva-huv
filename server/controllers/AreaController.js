@@ -1,5 +1,4 @@
 const { Area, Service } = require('../models');
-const { getPermissionsAfterToken } = require('../utils/auth');
 
 class AreaController {
   /**
@@ -34,10 +33,6 @@ class AreaController {
    * @returns All the areas in the database.
    */
   static async getAll(req, res) {
-    const { userId } = req;
-    const permissions = await getPermissionsAfterToken(userId);
-    console.log(permissions);
-
     try {
       const area = await Area.findAll({
         include: [{ model: Service }],
@@ -102,14 +97,15 @@ class AreaController {
     const { id } = req.params;
     const { serviceId } = req.body;
 
-    if (!serviceId) return res.status(400).json({ err: 'required serviceId' });
     try {
       const area = await Area.findAll({ where: { id } });
       if (area.length === 0) return res.status(400).json({ err: 'Not Found' });
 
-      const service = await Service.findAll({ where: { id: serviceId } });
-      if (service.length === 0) {
-        return res.status(400).json({ err: 'missing service' });
+      if (serviceId) {
+        const service = await Service.findAll({ where: { id: serviceId } });
+        if (service.length === 0) {
+          return res.status(400).json({ err: "service doesn't exists" });
+        }
       }
 
       const response = await Area.update(req.body, { where: { id } });
