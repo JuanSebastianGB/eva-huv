@@ -6,9 +6,7 @@ const app = require('../server');
  * @param models - An array of models to truncate.
  */
 exports.truncateModels = async (models) => {
-  models.map((model) => {
-    model.destroy({ where: {}, force: true });
-  });
+  models.map((model) => model.destroy({ where: {}, force: true }));
 };
 
 /**
@@ -36,8 +34,9 @@ exports.getOneTest = async (endpoint, id) => {
     .get(`${endpoint}/${id}`)
     .set('skip', true);
   const { status, body } = response;
-  const { service: data } = body;
-  return { status, data };
+  const key = Object.keys(body)[0];
+  const err = body.err ? body.err : null;
+  return { status, data: body[key], err };
 };
 
 /**
@@ -51,7 +50,8 @@ exports.getAllTest = async (endpoint) => {
 };
 
 /**
- * It sends a DELETE request to the `/tests/:id` endpoint, and returns the response body, status code,
+ * It sends a DELETE request to the `/tests/:id` endpoint, and returns
+ * the response body, status code,
  * and error message (if any)
  * @param id - The id of the test you want to delete
  * @returns The data, status, and err are being returned.
@@ -73,12 +73,12 @@ exports.deleteOneTest = async (endpoint, id) => {
  * @returns The data and status of the request.
  */
 exports.updateOneTest = async (endpoint, id, toUpdate) => {
-  const {
-    body: { response: data },
-    status,
-  } = await request(app)
+  const { body, status } = await request(app)
     .put(`${endpoint}/${id}`)
     .send(toUpdate)
     .set('skip', true);
-  return { data, status };
+
+  const key = Object.keys(body)[0];
+  const err = body.err ? body.err : null;
+  return { status, data: body[key], err };
 };

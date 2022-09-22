@@ -28,7 +28,7 @@ const ENDPOINT = '/services';
 
 describe('API', () => {
   beforeEach(async () => {
-    const models = [Area, Service];
+    const models = [Service];
     truncateModels(models);
   });
   describe('Get /services Get all', async () => {
@@ -47,10 +47,10 @@ describe('API', () => {
       expect(status).to.equal(200);
       expect(typeof data).to.equal('object');
     });
-    it("undefined when try to get a row that doesn't exist", async () => {
-      const { data, status } = await getOneTest(ENDPOINT, 'h');
-      await expect(status).to.equal(200);
-      await expect(data).to.equal(undefined);
+    it('Error when try to get a service when id is not a number', async () => {
+      const { data, status, err } = await getOneTest(ENDPOINT, 'h');
+      await expect(status).to.equal(400);
+      await expect(err).to.equal('id must be a number');
     });
   });
   describe('Post /services', async () => {
@@ -77,31 +77,35 @@ describe('API', () => {
   describe('Delete /services/:id', () => {
     it('Delete an specific row by id successfully', async () => {
       const response = await createOneTest(ENDPOINT, { name: uuidv4() });
-      const { id } = response.data;
-      const { data, status } = await deleteOneTest(ENDPOINT, id);
-      await expect(data).to.equal(1);
+      const { id } = await response.data;
+      const { status } = await deleteOneTest(ENDPOINT, id);
       await expect(status).to.equal(200);
     });
     it("Error when try to delete a row that doesn't exists", async () => {
       const { err, status } = await deleteOneTest(ENDPOINT, 999999);
       await expect(err).to.equal('Not Found');
-      await expect(status).to.equal(401);
+      await expect(status).to.equal(400);
     });
   });
   describe('PUT /services/id', () => {
     it('Update a row successfully', async () => {
-      const newService = await createOneTest(ENDPOINT, { name: uuidv4() });
-      const { status } = await updateOneTest(ENDPOINT, newService.data.id, {
+      const newRow = await createOneTest(ENDPOINT, { name: uuidv4() });
+      const { status } = await updateOneTest(ENDPOINT, newRow.data.id, {
         name: 'updated',
       });
-      const { data } = await getOneTest(ENDPOINT, newService.data.id);
+      const { data } = await getOneTest(ENDPOINT, newRow.data.id);
       await expect(status).to.equal(200);
       await expect(data.name).to.equal('updated');
     });
     it("Error when try to update a  a row that doesn't exists", async () => {
-      const { data, status } = await updateOneTest(ENDPOINT, 'h');
-      await expect(status).to.equal(401);
-      await expect(data).to.equal(undefined);
+      const { data, status, err } = await updateOneTest(ENDPOINT, 9999999999);
+      await expect(status).to.equal(400);
+      await expect(err).to.equal('Not Found');
+    });
+    it('Error when try to update an service when id is not a number', async () => {
+      const { data, status, err } = await updateOneTest(ENDPOINT, 'h');
+      await expect(status).to.equal(400);
+      await expect(err).to.equal('id must be a number');
     });
   });
 });
