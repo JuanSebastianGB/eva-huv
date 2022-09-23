@@ -31,11 +31,11 @@ class ServiceController {
    */
   static async getAll(req, res) {
     try {
-      const service = await Service.findAll({
+      const response = await Service.findAll({
         include: [Area, Device],
         attributes: ['name', 'id'],
       });
-      return res.status(200).json(service);
+      return res.status(200).json({ response });
     } catch (err) {
       return res.status(400).json({ err });
     }
@@ -54,13 +54,13 @@ class ServiceController {
       return res.status(400).json({ err: 'id must be a number' });
     }
     try {
-      const service = await Service.findAll({
+      const response = await Service.findAll({
         where: { id },
         include: [{ model: Area }],
         attributes: ['name'],
       });
-      if (!service) return res.status(400).json({ err: 'Not Found' });
-      return res.status(200).json({ service: service[0] });
+      if (!response) return res.status(400).json({ err: 'Not Found' });
+      return res.status(200).json({ response: response[0] });
     } catch (err) {
       return res.status(400).json({ err });
     }
@@ -118,8 +118,8 @@ class ServiceController {
    * @returns The quantity of services in the database.
    */
   static async getCount(req, res) {
-    const quantity = await Service.count();
-    return res.status(200).json({ quantity });
+    const response = await Service.count();
+    return res.status(200).json({ response });
   }
 }
 

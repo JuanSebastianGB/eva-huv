@@ -13,8 +13,8 @@ exports.createOneRow = async (endpoint, toCreate) => {
     .post(endpoint)
     .send(toCreate)
     .set('skip', true);
-  const { response: data } = body;
-  return { status, data };
+  const { response: data, err } = body;
+  return { status, data, err };
 };
 
 /* Making a GET request to the endpoint and returning the status code and the data returned by the
@@ -24,17 +24,17 @@ exports.getOneRow = async (endpoint, id) => {
     .get(`${endpoint}/${id}`)
     .set('skip', true);
   const { status, body } = response;
-  const key = Object.keys(body)[0];
-  const err = body.err ? body.err : null;
-  return { status, data: body[key], err };
+  const { response: data, err } = body;
+  return { status, data, err };
 };
 
 /* Making a GET request to the endpoint and returning the status code and the data returned by the
 endpoint. */
 exports.getAllRow = async (endpoint) => {
   const response = await request(app).get(endpoint).set('skip', true);
-  const { status, body: data } = response;
-  return { status, data };
+  const { status, body } = response;
+  const { response: data, err } = body;
+  return { status, data, err };
 };
 
 /* Deleting a row in the database. */
@@ -42,8 +42,7 @@ exports.deleteOneRow = async (endpoint, id) => {
   const { body, status } = await request(app)
     .delete(`${endpoint}/${id}`)
     .set('skip', true);
-  const { response: data } = body;
-  const { err } = body;
+  const { response: data, err } = body;
   return { data, status, err };
 };
 
@@ -54,7 +53,6 @@ exports.updateOneRow = async (endpoint, id, toUpdate) => {
     .send(toUpdate)
     .set('skip', true);
 
-  const key = Object.keys(body)[0];
-  const err = body.err ? body.err : null;
-  return { status, data: body[key], err };
+  const { response: data, err } = body;
+  return { status, data, err };
 };
