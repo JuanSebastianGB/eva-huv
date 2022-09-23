@@ -8,9 +8,12 @@ const DeviceController = require('../controllers/DeviceController');
 const FileController = require('../controllers/FileController');
 const StudentController = require('../controllers/StudentController');
 const ClassRoomController = require('../controllers/ClassRoomController');
+const MailController = require('../controllers/MailController');
 const verifyToken = require('../middlewares/authJwt');
 
 const router = express.Router();
+
+router.get('/email', MailController.emailEndpoint);
 
 /** Many To Many implementation */
 router.get('/students', [verifyToken], StudentController.getAll);
