@@ -30,15 +30,15 @@ class ServiceController {
    * @returns An array of all the services in the database.
    */
   static async getAll(req, res) {
-    // try {
-    const service = await Service.findAll({
-      include: [Area, Device],
-      attributes: ['name'],
-    });
-    return res.status(200).json(service);
-    // } catch (err) {
-    //   return res.status(400).json({ err });
-    // }
+    try {
+      const service = await Service.findAll({
+        include: [Area, Device],
+        attributes: ['name'],
+      });
+      return res.status(200).json(service);
+    } catch (err) {
+      return res.status(400).json({ err });
+    }
   }
 
   /**
