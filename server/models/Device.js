@@ -15,9 +15,9 @@ module.exports = (sequelize, DataTypes) => {
       Device.belongsTo(models.FinalDisposition);
       Device.belongsTo(models.Guide);
       Device.belongsTo(models.Owner);
-      Device.belongsTo(models.Plan);
       Device.belongsTo(models.RiskType);
       Device.belongsTo(models.Technology);
+      Device.belongsTo(models.Service);
 
       Device.hasMany(models.Calibration);
       Device.hasMany(models.CorrectiveMaintenance);
@@ -47,7 +47,6 @@ module.exports = (sequelize, DataTypes) => {
       status: DataTypes.INTEGER,
       serviceId: DataTypes.INTEGER,
       areaId: DataTypes.INTEGER,
-      manualId: DataTypes.INTEGER,
       guideId: DataTypes.INTEGER,
       ownerId: DataTypes.INTEGER,
       finalDispositionId: DataTypes.INTEGER,
@@ -55,6 +54,7 @@ module.exports = (sequelize, DataTypes) => {
       biomedicalClassificationId: DataTypes.INTEGER,
       deviceStatusId: DataTypes.INTEGER,
       deviceTypeId: DataTypes.INTEGER,
+      technologyId: DataTypes.INTEGER,
     },
     {
       sequelize,

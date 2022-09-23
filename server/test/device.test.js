@@ -22,23 +22,23 @@ const {
 const app = require('../server');
 
 const { expect } = chai;
-const { Service } = require('../models');
+const { Device } = require('../models');
 
-const ENDPOINT = '/areas';
-let serviceId;
+const ENDPOINT = '/devices';
+// let serviceId;
 
-describe('API Areas', async () => {
+describe('API Devices', async () => {
   beforeEach(async () => {
-    const models = [Service];
-    truncateModels(models);
-    const { data, status } = await createOneRow('/services', {
-      name: uuidv4(),
-    });
-    serviceId = data.id;
+    const models = [Device];
+    await truncateModels(models);
+    // const { data, status } = await createOneRow('/services', {
+    //   name: uuidv4(),
+    // });
+    // serviceId = data.id;
   });
-  describe('Get /areas Get all', async () => {
+  describe('Get /devices Get all', async () => {
     it('returns the rows', async () => {
-      await createOneRow(ENDPOINT, { name: uuidv4(), serviceId });
+      await createOneRow(ENDPOINT, { name: uuidv4() });
       const { status, data, err } = await getAllRow(ENDPOINT);
       await expect(status).to.equal(200);
       await expect(Array.isArray(data)).to.equal(true);
@@ -46,11 +46,10 @@ describe('API Areas', async () => {
       await expect(err).to.equal(undefined);
     });
   });
-  describe('Get /areas Get By Id', async () => {
+  describe('Get /devices Get By Id', async () => {
     it('return the row by id', async () => {
       const response = await createOneRow(ENDPOINT, {
         name: uuidv4(),
-        serviceId,
       });
       const { id } = await response.data;
       const { status, data, err } = await getOneRow(ENDPOINT, id);
@@ -58,7 +57,7 @@ describe('API Areas', async () => {
       expect(typeof data).to.equal('object');
       await expect(err).to.equal(undefined);
     });
-    it('Error when try to get an area when id is not a number', async () => {
+    it('Error when try to get a device when id is not a number', async () => {
       const { data, status, err } = await getOneRow(ENDPOINT, 'h');
       await expect(status).to.equal(400);
       await expect(err).to.equal('id must be a number');
@@ -71,11 +70,10 @@ describe('API Areas', async () => {
       await expect(err).to.equal(undefined);
     });
     // });
-    describe('Post /areas', async () => {
+    describe('Post /devices', async () => {
       it('create a new row called created', async () => {
         const { status, data, err } = await createOneRow(ENDPOINT, {
           name: 'created',
-          serviceId,
         });
 
         const { id } = data;
@@ -88,22 +86,21 @@ describe('API Areas', async () => {
       //   const promises = [];
       //   Promise.all();
       //   for (let index = 0; index < 5; index += 1) {
-      //     promises.push(createOneRow(ENDPOINT, { name: uuidv4(), serviceId }));
+      //     promises.push(createOneRow(ENDPOINT, { name: uuidv4() }));
       //   }
       //   const result = await Promise.all(promises);
       //   const { status, data } = await getAllRow(ENDPOINT);
       //   await expect(data.length).to.equal(5);
       // });
     });
-    describe('Delete /areas/:id', () => {
+    describe('Delete /devices/:id', () => {
       it('Delete an specific row by id successfully', async () => {
         const response = await createOneRow(ENDPOINT, {
           name: uuidv4(),
-          serviceId,
         });
         const { id } = response.data;
         const { data, status, err } = await deleteOneRow(ENDPOINT, id);
-        await expect(data).to.equal(1);
+        // await expect(data).to.equal(1);
         await expect(status).to.equal(200);
       });
       it("Error when try to delete a row that doesn't exists", async () => {
@@ -112,15 +109,13 @@ describe('API Areas', async () => {
         await expect(status).to.equal(400);
       });
     });
-    describe('PUT /areas/id', () => {
+    describe('PUT /devices/id', () => {
       it('Update a row successfully', async () => {
         const newRow = await createOneRow(ENDPOINT, {
           name: uuidv4(),
-          serviceId,
         });
         const { status } = await updateOneRow(ENDPOINT, newRow.data.id, {
           name: 'updated',
-          serviceId,
         });
         const { data } = await getOneRow(ENDPOINT, newRow.data.id);
         await expect(status).to.equal(201);

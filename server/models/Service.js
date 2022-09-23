@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Service.hasMany(models.Area);
+      Service.hasMany(models.Device);
     }
   }
   Service.init(

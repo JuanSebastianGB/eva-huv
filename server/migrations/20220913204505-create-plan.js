@@ -10,13 +10,7 @@ module.exports = {
       scheduledDate: {
         type: Sequelize.DATE,
       },
-      deviceId: {
-        type: Sequelize.INTEGER,
-        references: {
-          model: { tableName: 'Devices' },
-          key: 'id',
-        },
-      },
+
       contractId: {
         type: Sequelize.INTEGER,
         references: {

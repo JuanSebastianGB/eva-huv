@@ -1,4 +1,4 @@
-const { Area, Device, Service } = require('../models');
+const { Device, Service } = require('../models');
 
 class ServiceController {
   /**
@@ -11,12 +11,12 @@ class ServiceController {
     const { name } = req.body;
     if (!name) res.status(400).json({ err: 'missing name' });
     try {
-      const service = await Service.findAll({ where: { name } });
+      const service = await Device.findAll({ where: { name } });
       if (service.length > 0) {
         return res.status(400).json({ err: 'Already exists' });
       }
-
-      const response = await Service.create(req.body);
+      console.log(service);
+      const response = await Device.create(req.body);
       return res.status(201).json({ response });
     } catch (err) {
       return res.status(400).json({ err });
@@ -31,11 +31,11 @@ class ServiceController {
    */
   static async getAll(req, res) {
     try {
-      const response = await Service.findAll({
-        include: [Area, Device],
-        attributes: ['name', 'id'],
+      const service = await Device.findAll({
+        include: [Service],
+        attributes: ['name', 'serviceId'],
       });
-      return res.status(200).json({ response });
+      return res.status(200).json(service);
     } catch (err) {
       return res.status(400).json({ err });
     }
@@ -54,13 +54,13 @@ class ServiceController {
       return res.status(400).json({ err: 'id must be a number' });
     }
     try {
-      const response = await Service.findAll({
+      const service = await Device.findAll({
         where: { id },
-        include: [{ model: Area }],
+        // include: [{ model: Area }],
         attributes: ['name'],
       });
-      if (!response) return res.status(400).json({ err: 'Not Found' });
-      return res.status(200).json({ response: response[0] });
+      if (!service) return res.status(400).json({ err: 'Not Found' });
+      return res.status(200).json({ service: service[0] });
     } catch (err) {
       return res.status(400).json({ err });
     }
@@ -76,11 +76,11 @@ class ServiceController {
     const { id } = req.params;
 
     try {
-      const service = await Service.findAll({ where: { id } });
+      const service = await Device.findAll({ where: { id } });
       if (service.length === 0) {
         return res.status(400).json({ err: 'Not Found' });
       }
-      const response = await Service.destroy({ where: { id } });
+      const response = await Device.destroy({ where: { id } });
       return res.status(200).json({ response });
     } catch (err) {
       return res.status(400).json({ err });
@@ -100,11 +100,11 @@ class ServiceController {
       return res.status(400).json({ err: 'id must be a number' });
     }
     try {
-      const service = await Service.findAll({ where: { id } });
+      const service = await Device.findAll({ where: { id } });
       if (service.length === 0) {
         return res.status(400).json({ err: 'Not Found' });
       }
-      const response = await Service.update(req.body, { where: { id } });
+      const response = await Device.update(req.body, { where: { id } });
       return res.status(200).json({ response });
     } catch (err) {
       return res.status(400).json({ err });
@@ -118,8 +118,8 @@ class ServiceController {
    * @returns The quantity of services in the database.
    */
   static async getCount(req, res) {
-    const response = await Service.count();
-    return res.status(200).json({ response });
+    const quantity = await Device.count();
+    return res.status(200).json({ quantity });
   }
 }
 

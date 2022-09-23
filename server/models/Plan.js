@@ -9,13 +9,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       Plan.belongsTo(models.Contract);
-      Plan.hasOne(models.Device);
     }
   }
   Plan.init(
     {
       scheduledDate: DataTypes.DATE,
-      deviceId: DataTypes.INTEGER,
       contractId: DataTypes.INTEGER,
     },
     {

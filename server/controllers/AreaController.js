@@ -34,11 +34,11 @@ class AreaController {
    */
   static async getAll(req, res) {
     try {
-      const area = await Area.findAll({
+      const response = await Area.findAll({
         include: [{ model: Service }],
         attributes: ['name'],
       });
-      return res.status(200).json(area);
+      return res.status(200).json({ response });
     } catch (err) {
       return res.status(400).json({ err });
     }
@@ -56,13 +56,13 @@ class AreaController {
       return res.status(400).json({ err: 'id must be a number' });
     }
     try {
-      const area = await Area.findAll({
+      const response = await Area.findAll({
         where: { id },
         attributes: ['name'],
         include: [Service],
       });
-      if (!area) return res.status(400).json({ err: 'Not Found' });
-      return res.status(200).json({ area: area[0] });
+      if (!response) return res.status(400).json({ err: 'Not Found' });
+      return res.status(200).json({ response: response[0] });
     } catch (err) {
       return res.status(400).json({ err });
     }
@@ -122,9 +122,9 @@ class AreaController {
    * @returns The quantity of areas in the database.
    */
   static async getCount(req, res) {
-    const quantity = await Area.count();
+    const response = await Area.count();
     console.log(req.userId);
-    return res.status(200).json({ quantity });
+    return res.status(200).json({ response });
   }
 }
 
