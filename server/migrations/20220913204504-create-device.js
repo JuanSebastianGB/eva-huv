@@ -52,7 +52,7 @@ module.exports = {
           model: { tableName: 'Services' },
           key: 'id',
         },
-        allowNull: false,
+        allowNull: true,
       },
       areaId: {
         type: Sequelize.INTEGER,
@@ -60,7 +60,7 @@ module.exports = {
           model: { tableName: 'Services' },
           key: 'id',
         },
-        defaultValue: 0,
+        allowNull: true,
       },
       guideId: {
         type: Sequelize.INTEGER,
@@ -68,7 +68,7 @@ module.exports = {
           model: { tableName: 'Guides' },
           key: 'id',
         },
-        defaultValue: 0,
+        allowNull: true,
       },
       ownerId: {
         type: Sequelize.INTEGER,
@@ -76,9 +76,15 @@ module.exports = {
           model: { tableName: 'Owners' },
           key: 'id',
         },
+        allowNull: true,
       },
       finalDispositionId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: { tableName: 'FinalDispositions' },
+          key: 'id',
+        },
+        allowNull: true,
       },
       riskTypeId: {
         type: Sequelize.INTEGER,
@@ -86,6 +92,7 @@ module.exports = {
           model: { tableName: 'RiskTypes' },
           key: 'id',
         },
+        allowNull: true,
       },
       biomedicalClassificationId: {
         type: Sequelize.INTEGER,
@@ -93,6 +100,7 @@ module.exports = {
           model: { tableName: 'BiomedicalClassifications' },
           key: 'id',
         },
+        allowNull: true,
       },
       deviceStatusId: {
         type: Sequelize.INTEGER,
@@ -100,6 +108,7 @@ module.exports = {
           model: { tableName: 'DeviceStatuses' },
           key: 'id',
         },
+        allowNull: true,
       },
       deviceTypeId: {
         type: Sequelize.INTEGER,
@@ -107,6 +116,15 @@ module.exports = {
           model: { tableName: 'DeviceTypes' },
           key: 'id',
         },
+        allowNull: true,
+      },
+      technologyId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: { tableName: 'Technologies' },
+          key: 'id',
+        },
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,

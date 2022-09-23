@@ -4,6 +4,7 @@ const AuthController = require('../controllers/AuthController');
 const UsersController = require('../controllers/UserController');
 const AreaController = require('../controllers/AreaController');
 const ServiceController = require('../controllers/ServiceController');
+const DeviceController = require('../controllers/DeviceController');
 const FileController = require('../controllers/FileController');
 const StudentController = require('../controllers/StudentController');
 const ClassRoomController = require('../controllers/ClassRoomController');
@@ -52,4 +53,9 @@ router.post('/services', [verifyToken], ServiceController.create);
 router.put('/services/:id', [verifyToken], ServiceController.update);
 router.delete('/services/:id', [verifyToken], ServiceController.deleteOne);
 
+router.get('/devices', [verifyToken], DeviceController.getAll);
+router.get('/devices/:id', [verifyToken], DeviceController.getOne);
+router.post('/devices', [verifyToken], DeviceController.create);
+router.put('/devices/:id', [verifyToken], DeviceController.update);
+router.delete('/devices/:id', [verifyToken], DeviceController.deleteOne);
 module.exports = router;
