@@ -53,6 +53,7 @@ module.exports = {
           key: 'id',
         },
         allowNull: true,
+        onDelete: 'SET NULL',
       },
       areaId: {
         type: Sequelize.INTEGER,

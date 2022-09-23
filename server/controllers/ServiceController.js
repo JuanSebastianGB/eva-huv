@@ -33,7 +33,7 @@ class ServiceController {
     try {
       const service = await Service.findAll({
         include: [Area, Device],
-        attributes: ['name'],
+        attributes: ['name', 'id'],
       });
       return res.status(200).json(service);
     } catch (err) {

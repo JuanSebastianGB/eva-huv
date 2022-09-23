@@ -1,4 +1,4 @@
-const { Device } = require('../models');
+const { Device, Service } = require('../models');
 
 class ServiceController {
   /**
@@ -32,8 +32,8 @@ class ServiceController {
   static async getAll(req, res) {
     try {
       const service = await Device.findAll({
-        // include: [{ model: Area }],
-        attributes: ['name'],
+        include: [Service],
+        attributes: ['name', 'serviceId'],
       });
       return res.status(200).json(service);
     } catch (err) {
