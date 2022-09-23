@@ -53,6 +53,7 @@ router.post('/services', [verifyToken], ServiceController.create);
 router.put('/services/:id', [verifyToken], ServiceController.update);
 router.delete('/services/:id', [verifyToken], ServiceController.deleteOne);
 
+router.get('/devices/count', [verifyToken], DeviceController.getCount);
 router.get('/devices', [verifyToken], DeviceController.getAll);
 router.get('/devices/:id', [verifyToken], DeviceController.getOne);
 router.post('/devices', [verifyToken], DeviceController.create);
