@@ -107,13 +107,17 @@ class AuthController {
    */
   static async getPermission(req, res) {
     const { headers } = req;
-    const { verify } = jwt;
-    const token = headers['x-access-token'];
-    if (!token) return res.status(403).json({ message: 'token required' });
-    const verifiedToken = verify(token, JWT_SECRET);
-    const { id } = verifiedToken;
-    const permissions = await getPermissionsAfterToken(id);
-    return res.status(200).json(permissions);
+    try {
+      const { verify } = jwt;
+      const token = headers['x-access-token'];
+      if (!token) return res.status(403).json({ message: 'token required' });
+      const verifiedToken = verify(token, JWT_SECRET);
+      const { id } = verifiedToken;
+      const permissions = await getPermissionsAfterToken(id);
+      return res.status(200).json(permissions);
+    } catch (err) {
+      return res.status(400).json({ err });
+    }
   }
 }
 
