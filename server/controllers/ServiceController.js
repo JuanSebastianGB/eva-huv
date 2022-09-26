@@ -1,4 +1,5 @@
-const { Area, Device, Service } = require('../models');
+const { Service } = require('../models');
+const serviceMethods = require('../services/services');
 
 class ServiceController {
   /**
@@ -11,12 +12,11 @@ class ServiceController {
     const { name } = req.body;
     if (!name) res.status(400).json({ err: 'missing name' });
     try {
-      const service = await Service.findAll({ where: { name } });
+      const service = await serviceMethods.getByParam('name', name);
       if (service.length > 0) {
         return res.status(400).json({ err: 'Already exists' });
       }
-
-      const response = await Service.create(req.body);
+      const response = await serviceMethods.create(req.body);
       return res.status(201).json({ response });
     } catch (err) {
       return res.status(400).json({ err });
@@ -31,10 +31,7 @@ class ServiceController {
    */
   static async getAll(req, res) {
     try {
-      const response = await Service.findAll({
-        include: [Area, Device],
-        attributes: ['name', 'id'],
-      });
+      const response = await serviceMethods.getAll();
       return res.status(200).json({ response });
     } catch (err) {
       return res.status(400).json({ err });
@@ -54,11 +51,7 @@ class ServiceController {
       return res.status(400).json({ err: 'id must be a number' });
     }
     try {
-      const response = await Service.findAll({
-        where: { id },
-        include: [{ model: Area }],
-        attributes: ['name'],
-      });
+      const response = await serviceMethods.getById(id);
       if (!response) return res.status(400).json({ err: 'Not Found' });
       return res.status(200).json({ response: response[0] });
     } catch (err) {
@@ -74,13 +67,12 @@ class ServiceController {
    */
   static async deleteOne(req, res) {
     const { id } = req.params;
-
     try {
-      const service = await Service.findAll({ where: { id } });
+      const service = await serviceMethods.getById(id);
       if (service.length === 0) {
         return res.status(400).json({ err: 'Not Found' });
       }
-      const response = await Service.destroy({ where: { id } });
+      const response = await serviceMethods.delById(id);
       return res.status(200).json({ response });
     } catch (err) {
       return res.status(400).json({ err });
@@ -95,16 +87,17 @@ class ServiceController {
    */
   static async update(req, res) {
     let { id } = req.params;
+    const { body } = req;
     id = parseFloat(id);
     if (Number.isNaN(id)) {
       return res.status(400).json({ err: 'id must be a number' });
     }
     try {
-      const service = await Service.findAll({ where: { id } });
+      const service = await serviceMethods.getById(id);
       if (service.length === 0) {
         return res.status(400).json({ err: 'Not Found' });
       }
-      const response = await Service.update(req.body, { where: { id } });
+      const response = await serviceMethods.update(body, id);
       return res.status(200).json({ response });
     } catch (err) {
       return res.status(400).json({ err });
