@@ -34,6 +34,7 @@ exports.getAllRow = async (endpoint) => {
   const response = await request(app).get(endpoint).set('skip', true);
   const { status, body } = response;
   const { response: data, err } = body;
+
   return { status, data, err };
 };
 
