@@ -1,4 +1,6 @@
-const { Area, Service } = require('../models');
+const { Area } = require('../models');
+const areaMethods = require('../services/areas');
+const serviceMethods = require('../services/services');
 
 class AreaController {
   /**
@@ -14,12 +16,11 @@ class AreaController {
     if (!serviceId) res.status(400).json({ err: 'missing service' });
     if (!name) res.status(400).json({ err: 'missing name' });
     try {
-      const area = await Area.findAll({ where: { name } });
+      const area = await areaMethods.getByParam('name', name);
       if (area.length > 0) {
         return res.status(400).json({ err: 'Already exists' });
       }
-
-      const response = await Area.create(req.body);
+      const response = await areaMethods.create(req.body);
       return res.status(201).json({ response });
     } catch (err) {
       return res.status(400).json({ err });
@@ -33,15 +34,12 @@ class AreaController {
    * @returns All the areas in the database.
    */
   static async getAll(req, res) {
-    try {
-      const response = await Area.findAll({
-        include: [{ model: Service }],
-        attributes: ['name'],
-      });
-      return res.status(200).json({ response });
-    } catch (err) {
-      return res.status(400).json({ err });
-    }
+    // try {
+    const response = await areaMethods.getAll();
+    return res.status(200).json({ response });
+    // } catch (err) {
+    // return res.status(400).json({ err });
+    // }
   }
 
   /**
@@ -56,11 +54,7 @@ class AreaController {
       return res.status(400).json({ err: 'id must be a number' });
     }
     try {
-      const response = await Area.findAll({
-        where: { id },
-        attributes: ['name'],
-        include: [Service],
-      });
+      const response = await areaMethods.getById(id);
       if (!response) return res.status(400).json({ err: 'Not Found' });
       return res.status(200).json({ response: response[0] });
     } catch (err) {
@@ -78,9 +72,9 @@ class AreaController {
     const { id } = req.params;
 
     try {
-      const area = await Area.findAll({ where: { id } });
+      const area = await areaMethods.getById(id);
       if (area.length === 0) return res.status(400).json({ err: 'Not Found' });
-      const response = await Area.destroy({ where: { id } });
+      const response = await areaMethods.delById(id);
       return res.status(200).json({ response });
     } catch (err) {
       return res.status(400).json({ err });
@@ -98,17 +92,15 @@ class AreaController {
     const { serviceId } = req.body;
 
     try {
-      const area = await Area.findAll({ where: { id } });
+      const area = await areaMethods.getById(id);
       if (area.length === 0) return res.status(400).json({ err: 'Not Found' });
-
       if (serviceId) {
-        const service = await Service.findAll({ where: { id: serviceId } });
+        const service = await serviceMethods.getById(serviceId);
         if (service.length === 0) {
           return res.status(400).json({ err: "service doesn't exists" });
         }
       }
-
-      const response = await Area.update(req.body, { where: { id } });
+      const response = await areaMethods.update(req.body, id);
       return res.status(201).json({ response });
     } catch (err) {
       return res.status(400).json({ err });
