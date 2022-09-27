@@ -4,7 +4,7 @@ const express = require('express');
 const fs = require('fs');
 const AppController = require('../controllers/AppController');
 const FileController = require('../controllers/FileController');
-const verifyToken = require('../middlewares/authJwt');
+// const verifyToken = require('../middlewares/authJwt');
 
 const router = express.Router();
 

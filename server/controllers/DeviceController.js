@@ -1,4 +1,6 @@
-const { Device, Service } = require('../models');
+const { Device } = require('../models');
+const deviceMethods = require('../services/devices');
+const serviceMethods = require('../services/services');
 
 class DeviceController {
   /**
@@ -11,12 +13,11 @@ class DeviceController {
     const { name } = req.body;
     if (!name) res.status(400).json({ err: 'missing name' });
     try {
-      const device = await Device.findAll({ where: { name } });
+      const device = await deviceMethods.getByParam('name', name);
       if (device.length > 0) {
         return res.status(400).json({ err: 'Already exists' });
       }
-
-      const response = await Device.create(req.body);
+      const response = await deviceMethods.create(req.body);
       return res.status(201).json({ response });
     } catch (err) {
       return res.status(400).json({ err });
@@ -31,10 +32,7 @@ class DeviceController {
    */
   static async getAll(req, res) {
     try {
-      const response = await Device.findAll({
-        include: [Service],
-        attributes: ['name', 'id'],
-      });
+      const response = await deviceMethods.getAll();
       return res.status(200).json({ response });
     } catch (err) {
       return res.status(400).json({ err });
@@ -56,11 +54,7 @@ class DeviceController {
       return res.status(400).json({ err: 'id must be a number' });
     }
     try {
-      const response = await Device.findAll({
-        where: { id },
-        attributes: ['name', 'id'],
-        include: [Service],
-      });
+      const response = await deviceMethods.getById(id);
       if (!response) return res.status(400).json({ err: 'Not Found' });
       return res.status(200).json({ response: response[0] });
     } catch (err) {
@@ -78,11 +72,11 @@ class DeviceController {
     const { id } = req.params;
 
     try {
-      const device = await Device.findAll({ where: { id } });
+      const device = await deviceMethods.getById(id);
       if (device.length === 0) {
         return res.status(400).json({ err: 'Not Found' });
       }
-      const response = await Device.destroy({ where: { id } });
+      const response = await deviceMethods.delById(id);
       return res.status(200).json({ response });
     } catch (err) {
       return res.status(400).json({ err });
@@ -100,17 +94,15 @@ class DeviceController {
     const { serviceId } = req.body;
 
     try {
-      const area = await Device.findAll({ where: { id } });
+      const area = await deviceMethods.getById(id);
       if (area.length === 0) return res.status(400).json({ err: 'Not Found' });
-
       if (serviceId) {
-        const service = await Service.findAll({ where: { id: serviceId } });
+        const service = await serviceMethods.getById(serviceId);
         if (service.length === 0) {
           return res.status(400).json({ err: "service doesn't exists" });
         }
       }
-
-      const response = await Device.update(req.body, { where: { id } });
+      const response = await deviceMethods.update(req.body, id);
       return res.status(201).json({ response });
     } catch (err) {
       return res.status(400).json({ err });
