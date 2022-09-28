@@ -62,6 +62,7 @@ module.exports = {
           key: 'id',
         },
         allowNull: true,
+        onDelete: 'SET NULL',
       },
       guideId: {
         type: Sequelize.INTEGER,
@@ -70,14 +71,17 @@ module.exports = {
           key: 'id',
         },
         allowNull: true,
+        onDelete: 'SET NULL',
       },
       ownerId: {
         type: Sequelize.INTEGER,
         references: {
           model: { tableName: 'Owners' },
           key: 'id',
+          onDelete: 'SET NULL',
         },
         allowNull: true,
+        onDelete: 'SET NULL',
       },
       finalDispositionId: {
         type: Sequelize.INTEGER,
@@ -86,6 +90,7 @@ module.exports = {
           key: 'id',
         },
         allowNull: true,
+        onDelete: 'SET NULL',
       },
       riskTypeId: {
         type: Sequelize.INTEGER,
@@ -94,6 +99,7 @@ module.exports = {
           key: 'id',
         },
         allowNull: true,
+        onDelete: 'SET NULL',
       },
       biomedicalClassificationId: {
         type: Sequelize.INTEGER,
@@ -102,6 +108,7 @@ module.exports = {
           key: 'id',
         },
         allowNull: true,
+        onDelete: 'SET NULL',
       },
       deviceStatusId: {
         type: Sequelize.INTEGER,
@@ -110,6 +117,7 @@ module.exports = {
           key: 'id',
         },
         allowNull: true,
+        onDelete: 'SET NULL',
       },
       deviceTypeId: {
         type: Sequelize.INTEGER,
@@ -118,6 +126,7 @@ module.exports = {
           key: 'id',
         },
         allowNull: true,
+        onDelete: 'SET NULL',
       },
       technologyId: {
         type: Sequelize.INTEGER,
@@ -126,6 +135,7 @@ module.exports = {
           key: 'id',
         },
         allowNull: true,
+        onDelete: 'SET NULL',
       },
       createdAt: {
         allowNull: false,

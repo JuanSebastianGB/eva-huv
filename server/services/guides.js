@@ -1,16 +1,16 @@
-const { Area, Device, Guide, Service } = require('../models');
+const { Device, Guide } = require('../models');
 
 exports.getAll = async () => {
-  const result = await Device.findAll({
-    include: [Area, Service, Guide],
+  const result = await Guide.findAll({
+    include: [Device],
     attributes: ['name', 'id'],
   });
   return result;
 };
 exports.getById = async (id) => {
-  const result = await Device.findAll({
+  const result = await Guide.findAll({
     where: { id },
-    include: [Area, Service],
+    include: [Device],
     attributes: ['name', 'id'],
   });
   return result;
@@ -19,22 +19,22 @@ exports.getByParam = async (param, searched) => {
   const condition = {
     [param]: searched,
   };
-  const result = await Device.findAll({
+  const result = await Guide.findAll({
     where: condition,
-    include: [Area, Service],
+    include: [Device],
     attributes: ['name', 'id'],
   });
   return result;
 };
 exports.delById = async (id) => {
-  const result = await Device.destroy({ where: { id } });
+  const result = await Guide.destroy({ where: { id } });
   return result;
 };
 exports.update = async (body, id) => {
-  const response = await Device.update(body, { where: { id } });
+  const response = await Guide.update(body, { where: { id } });
   return response;
 };
 exports.create = async (body) => {
-  const response = await Device.create(body);
+  const response = await Guide.create(body);
   return response;
 };
