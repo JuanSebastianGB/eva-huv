@@ -22,13 +22,13 @@ const {
 const app = require('../server');
 
 const { expect } = chai;
-const { Guide } = require('../models');
+const { Owner } = require('../models');
 
-const ENDPOINT = '/guides';
+const ENDPOINT = '/owners';
 
 describe('API', () => {
   beforeEach(async () => {
-    const models = [Guide];
+    const models = [Owner];
     truncateModels(models);
   });
   describe(`Get ${ENDPOINT} Get all`, async () => {
@@ -50,7 +50,7 @@ describe('API', () => {
       await expect(typeof data).to.equal('object');
       await expect(err).to.equal(undefined);
     });
-    it('Error when try to get a guide when id is not a number', async () => {
+    it('Error when try to get a owner when id is not a number', async () => {
       const { status, data, err } = await getOneRow(ENDPOINT, 'h');
       await expect(status).to.equal(400);
       await expect(err).to.equal('id must be a number');
@@ -111,12 +111,12 @@ describe('API', () => {
       await expect(data.name).to.equal('updated');
       await expect(err).to.equal(undefined);
     });
-    it("Error when try to update  a row that doesn't exists", async () => {
+    it("Error when try to update a  a row that doesn't exists", async () => {
       const { data, status, err } = await updateOneRow(ENDPOINT, 9999999999);
       await expect(status).to.equal(400);
       await expect(err).to.equal('Not Found');
     });
-    it('Error when try to update a guide when id is not a number', async () => {
+    it('Error when try to update an owner when id is not a number', async () => {
       const { data, status, err } = await updateOneRow(ENDPOINT, 'h');
       await expect(status).to.equal(400);
       await expect(err).to.equal('id must be a number');

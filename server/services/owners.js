@@ -1,16 +1,16 @@
-const { Area, Device, Guide, Owner, Service } = require('../models');
+const { Device, Owner } = require('../models');
 
 exports.getAll = async () => {
-  const result = await Device.findAll({
-    include: [Area, Owner, Service, Guide],
+  const result = await Owner.findAll({
+    include: [Device],
     attributes: ['name', 'id'],
   });
   return result;
 };
 exports.getById = async (id) => {
-  const result = await Device.findAll({
+  const result = await Owner.findAll({
     where: { id },
-    include: [Area, Guide, Owner, Service],
+    include: [Device],
     attributes: ['name', 'id'],
   });
   return result;
@@ -19,22 +19,22 @@ exports.getByParam = async (param, searched) => {
   const condition = {
     [param]: searched,
   };
-  const result = await Device.findAll({
+  const result = await Owner.findAll({
     where: condition,
-    include: [Area, Guide, Owner, Service],
+    include: [Device],
     attributes: ['name', 'id'],
   });
   return result;
 };
 exports.delById = async (id) => {
-  const result = await Device.destroy({ where: { id } });
+  const result = await Owner.destroy({ where: { id } });
   return result;
 };
 exports.update = async (body, id) => {
-  const response = await Device.update(body, { where: { id } });
+  const response = await Owner.update(body, { where: { id } });
   return response;
 };
 exports.create = async (body) => {
-  const response = await Device.create(body);
+  const response = await Owner.create(body);
   return response;
 };
