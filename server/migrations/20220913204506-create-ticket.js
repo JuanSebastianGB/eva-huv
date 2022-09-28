@@ -25,9 +25,21 @@ module.exports = {
       },
       ticketStatusId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: { tableName: 'TicketStatuses' },
+          key: 'id',
+        },
+        allowNull: true,
+        onDelete: 'SET NULL',
       },
       deviceId: {
         type: Sequelize.INTEGER,
+        references: {
+          model: { tableName: 'Devices' },
+          key: 'id',
+        },
+        allowNull: true,
+        onDelete: 'SET NULL',
       },
       ticketFile: {
         type: Sequelize.STRING,
