@@ -1,8 +1,16 @@
-const { Area, Device, Guide, Owner, Service } = require('../models');
+const {
+  Area,
+  Device,
+  DeviceStatus,
+  DeviceType,
+  Guide,
+  Owner,
+  Service,
+} = require('../models');
 
 exports.getAll = async () => {
   const result = await Device.findAll({
-    include: [Area, Owner, Service, Guide],
+    include: [Area, DeviceStatus, DeviceType, Owner, Service, Guide],
     attributes: ['name', 'id'],
   });
   return result;
@@ -10,7 +18,7 @@ exports.getAll = async () => {
 exports.getById = async (id) => {
   const result = await Device.findAll({
     where: { id },
-    include: [Area, Guide, Owner, Service],
+    include: [Area, DeviceStatus, DeviceType, Guide, Owner, Service],
     attributes: ['name', 'id'],
   });
   return result;
@@ -21,7 +29,7 @@ exports.getByParam = async (param, searched) => {
   };
   const result = await Device.findAll({
     where: condition,
-    include: [Area, Guide, Owner, Service],
+    include: [Area, DeviceStatus, DeviceType, Guide, Owner, Service],
     attributes: ['name', 'id'],
   });
   return result;
