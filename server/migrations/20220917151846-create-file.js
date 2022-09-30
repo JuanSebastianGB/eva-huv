@@ -16,6 +16,8 @@ module.exports = {
           model: { tableName: 'FileTypes' },
           key: 'id',
         },
+        allowNull: true,
+        onDelete: 'SET NULL',
       },
       deviceId: {
         type: Sequelize.INTEGER,
@@ -23,6 +25,8 @@ module.exports = {
           model: { tableName: 'Devices' },
           key: 'id',
         },
+        allowNull: true,
+        onDelete: 'SET NULL',
       },
       createdAt: {
         allowNull: false,
