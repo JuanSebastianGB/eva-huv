@@ -18,7 +18,7 @@ const {
   getOneRow,
   deleteOneRow,
   updateOneRow,
-} = require('./tesstUtils');
+} = require('./testUtils');
 const app = require('../server');
 
 const { expect } = chai;
