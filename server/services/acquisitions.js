@@ -1,8 +1,8 @@
-const { Provider, AcquisitionType, Acquisition } = require('../models');
+const { Provider, Device, AcquisitionType, Acquisition } = require('../models');
 
 exports.getAll = async () => {
   const result = await Acquisition.findAll({
-    include: [Provider, AcquisitionType],
+    include: [Provider, Device, AcquisitionType],
     attributes: ['code', 'id'],
   });
   return result;
@@ -10,7 +10,7 @@ exports.getAll = async () => {
 exports.getById = async (id) => {
   const result = await Acquisition.findAll({
     where: { id },
-    include: [Provider, AcquisitionType],
+    include: [Provider, Device, AcquisitionType],
     attributes: ['code', 'id'],
   });
   return result;
@@ -21,7 +21,7 @@ exports.getByParam = async (param, searched) => {
   };
   const result = await Acquisition.findAll({
     where: condition,
-    include: [Provider, AcquisitionType],
+    include: [Provider, Device, AcquisitionType],
     attributes: ['code', 'id'],
   });
   return result;

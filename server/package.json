@@ -10,7 +10,8 @@
     "migrate:dev": "env NODE_ENV=development npx sequelize-cli db:migrate;env NODE_ENV=development npx sequelize-cli db:seed:all",
     "undo:dev": "env NODE_ENV=development npx sequelize-cli db:migrate:undo:all",
     "migrate:test": "env NODE_ENV=test npx sequelize-cli db:migrate;env NODE_ENV=test npx sequelize-cli db:seed:all",
-    "undo:test": "env NODE_ENV=test npx sequelize-cli db:migrate:undo:all"
+    "undo:test": "env NODE_ENV=test npx sequelize-cli db:migrate:undo:all",
+    "reset:db:test": "npm run undo:test; npm run migrate:test"
   },
   "keywords": [],
   "author": "",
