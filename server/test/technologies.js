@@ -22,13 +22,13 @@ const {
 const app = require('../server');
 
 const { expect } = chai;
-const { Provider } = require('../models');
+const { Technology } = require('../models');
 
-const ENDPOINT = '/providers';
+const ENDPOINT = '/technologies';
 
 describe('API', () => {
   beforeEach(async () => {
-    const models = [Provider];
+    const models = [Technology];
     truncateModels(models);
   });
   describe(`Get ${ENDPOINT} Get all`, async () => {
@@ -50,7 +50,7 @@ describe('API', () => {
       await expect(typeof data).to.equal('object');
       await expect(err).to.equal(undefined);
     });
-    it('Error when try to get a provider when id is not a number', async () => {
+    it('Error when try to get a technology when id is not a number', async () => {
       const { status, data, err } = await getOneRow(ENDPOINT, 'h');
       await expect(status).to.equal(400);
       await expect(err).to.equal('id must be a number');
@@ -116,7 +116,7 @@ describe('API', () => {
       await expect(status).to.equal(400);
       await expect(err).to.equal('Not Found');
     });
-    it('Error when try to update a provider when id is not a number', async () => {
+    it('Error when try to update a technology when id is not a number', async () => {
       const { data, status, err } = await updateOneRow(ENDPOINT, 'h');
       await expect(status).to.equal(400);
       await expect(err).to.equal('id must be a number');
