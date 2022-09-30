@@ -1,22 +1,22 @@
-const { Guide } = require('../models');
-const guideMethods = require('../services/guides');
+const { Calibration } = require('../models');
+const calibrationMethods = require('../services/calibrations');
 
-class GuideController {
+class CalibrationController {
   /**
-   * It creates a new guide if the name doesn't already exist
+   * It creates a new calibration if the code doesn't already exist
    * @param req - The request object.
    * @param res - The response object.
    * @returns - A JSON object with the response from the database
    */
   static async create(req, res) {
-    const { name } = req.body;
-    if (!name) res.status(400).json({ err: 'missing name' });
+    const { code } = req.body;
+    if (!code) res.status(400).json({ err: 'missing code' });
     try {
-      const guide = await guideMethods.getByParam('name', name);
-      if (guide.length > 0) {
+      const calibration = await calibrationMethods.getByParam('code', code);
+      if (calibration.length > 0) {
         return res.status(400).json({ err: 'Already exists' });
       }
-      const response = await guideMethods.create(req.body);
+      const response = await calibrationMethods.create(req.body);
       return res.status(201).json({ response });
     } catch (err) {
       return res.status(400).json({ err });
@@ -24,14 +24,14 @@ class GuideController {
   }
 
   /**
-   * This function is used to get all the guides from the database
+   * This function is used to get all the calibrations from the database
    * @param req - The request object.
    * @param res - The response object.
-   * @returns An array of all the guides in the database.
+   * @returns An array of all the calibrations in the database.
    */
   static async getAll(req, res) {
     try {
-      const response = await guideMethods.getAll();
+      const response = await calibrationMethods.getAll();
       return res.status(200).json({ response });
     } catch (err) {
       return res.status(400).json({ err });
@@ -39,10 +39,10 @@ class GuideController {
   }
 
   /**
-   * It gets a guide by its id
+   * It gets a calibration by its id
    * @param req - The request object.
    * @param res - The response object.
-   * @returns The name of the guide with the id that was passed in the params.
+   * @returns The code of the calibration with the id that was passed in the params.
    */
   static async getOne(req, res) {
     let { id } = req.params;
@@ -51,7 +51,7 @@ class GuideController {
       return res.status(400).json({ err: 'id must be a number' });
     }
     try {
-      const response = await guideMethods.getById(id);
+      const response = await calibrationMethods.getById(id);
       if (!response) return res.status(400).json({ err: 'Not Found' });
       return res.status(200).json({ response: response[0] });
     } catch (err) {
@@ -60,7 +60,7 @@ class GuideController {
   }
 
   /**
-   * It deletes a guide from the database
+   * It deletes a calibration from the database
    * @param req - The request object.
    * @param res - The response object.
    * @returns The response is being returned.
@@ -68,11 +68,11 @@ class GuideController {
   static async deleteOne(req, res) {
     const { id } = req.params;
     try {
-      const guide = await guideMethods.getById(id);
-      if (guide.length === 0) {
+      const calibration = await calibrationMethods.getById(id);
+      if (calibration.length === 0) {
         return res.status(400).json({ err: 'Not Found' });
       }
-      const response = await guideMethods.delById(id);
+      const response = await calibrationMethods.delById(id);
       return res.status(200).json({ response });
     } catch (err) {
       return res.status(400).json({ err });
@@ -80,8 +80,8 @@ class GuideController {
   }
 
   /**
-   * It finds a guide by its id, updates it with the new data,
-   * and returns the updated guide
+   * It finds a calibration by its id, updates it with the new data,
+   * and returns the updated calibration
    * @param req - The request object.
    * @param res - The response object.
    * @returns The response is being returned.
@@ -94,11 +94,11 @@ class GuideController {
       return res.status(400).json({ err: 'id must be a number' });
     }
     try {
-      const guide = await guideMethods.getById(id);
-      if (guide.length === 0) {
+      const calibration = await calibrationMethods.getById(id);
+      if (calibration.length === 0) {
         return res.status(400).json({ err: 'Not Found' });
       }
-      const response = await guideMethods.update(body, id);
+      const response = await calibrationMethods.update(body, id);
       return res.status(200).json({ response });
     } catch (err) {
       return res.status(400).json({ err });
@@ -106,15 +106,15 @@ class GuideController {
   }
 
   /**
-   * It returns the number of guides in the database
+   * It returns the number of calibrations in the database
    * @param req - The request object.
    * @param res - The response object.
-   * @returns The quantity of guides in the database.
+   * @returns The quantity of calibrations in the database.
    */
   static async getCount(req, res) {
-    const response = await Guide.count();
+    const response = await Calibration.count();
     return res.status(200).json({ response });
   }
 }
 
-module.exports = GuideController;
+module.exports = CalibrationController;

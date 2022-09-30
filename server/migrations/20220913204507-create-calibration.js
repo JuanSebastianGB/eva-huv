@@ -7,7 +7,7 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      description: {
+      code: {
         type: Sequelize.STRING,
       },
       file: {
@@ -19,6 +19,8 @@ module.exports = {
           model: { tableName: 'Devices' },
           key: 'id',
         },
+        allowNull: true,
+        onDelete: 'SET NULL',
       },
       calibrationDate: {
         type: Sequelize.DATE,
