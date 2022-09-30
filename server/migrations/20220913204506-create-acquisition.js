@@ -19,6 +19,8 @@ module.exports = {
           model: { tableName: 'Providers' },
           key: 'id',
         },
+        allowNull: true,
+        onDelete: 'SET NULL',
       },
       acquisitionDate: {
         type: Sequelize.DATE,
@@ -29,6 +31,8 @@ module.exports = {
           model: { tableName: 'AcquisitionTypes' },
           key: 'id',
         },
+        allowNull: true,
+        onDelete: 'SET NULL',
       },
       externUrl: {
         type: Sequelize.STRING,
