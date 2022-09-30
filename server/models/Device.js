@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
+      Device.belongsTo(models.Acquisition);
       Device.belongsTo(models.Area);
       Device.belongsTo(models.BiomedicalClassification);
       Device.belongsTo(models.DeviceStatus);
@@ -47,6 +48,7 @@ module.exports = (sequelize, DataTypes) => {
       status: DataTypes.INTEGER,
       serviceId: DataTypes.INTEGER,
       areaId: DataTypes.INTEGER,
+      acquisitionId: DataTypes.INTEGER,
       guideId: DataTypes.INTEGER,
       ownerId: DataTypes.INTEGER,
       finalDispositionId: DataTypes.INTEGER,

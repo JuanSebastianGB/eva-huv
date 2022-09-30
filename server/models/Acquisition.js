@@ -10,6 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       Acquisition.belongsTo(models.Provider);
       Acquisition.belongsTo(models.AcquisitionType);
+
+      Acquisition.hasMany(models.Device);
     }
   }
   Acquisition.init(

@@ -32,6 +32,7 @@ npx sequelize-cli model:generate --name Device --attributes name:string,image:st
 ,warehouseReceiptDate:date\
 ,manufacturingDate:date\
 ,status:integer\
+,acquisitionId:integer\
 ,serviceId:integer\
 ,areaId:integer\
 ,guideId:integer\

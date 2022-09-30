@@ -46,6 +46,15 @@ module.exports = {
       status: {
         type: Sequelize.INTEGER,
       },
+      acquisitionId: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: { tableName: 'Acquisitions' },
+          key: 'id',
+        },
+        allowNull: true,
+        onDelete: 'SET NULL',
+      },
       serviceId: {
         type: Sequelize.INTEGER,
         references: {
@@ -58,7 +67,7 @@ module.exports = {
       areaId: {
         type: Sequelize.INTEGER,
         references: {
-          model: { tableName: 'Services' },
+          model: { tableName: 'Areas' },
           key: 'id',
         },
         allowNull: true,
