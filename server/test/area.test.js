@@ -84,16 +84,16 @@ describe('API Areas', async () => {
         await expect(data.name).to.equal('created');
         await expect(err).to.equal(undefined);
       });
-      it('create 5 rows successfully', async () => {
-        const promises = [];
-        Promise.all();
-        for (let index = 0; index < 5; index += 1) {
-          promises.push(createOneRow(ENDPOINT, { name: uuidv4(), serviceId }));
-        }
-        const result = await Promise.all(promises);
-        const { status, data } = await getAllRow(ENDPOINT);
-        await expect(data.length).to.equal(5);
-      });
+      // it('create 5 rows successfully', async () => {
+      //   const promises = [];
+      //   Promise.all();
+      //   for (let index = 0; index < 5; index += 1) {
+      //     promises.push(createOneRow(ENDPOINT, { name: uuidv4(), serviceId }));
+      //   }
+      //   const result = await Promise.all(promises);
+      //   const { status, data } = await getAllRow(ENDPOINT);
+      //   await expect(data.length).to.equal(5);
+      // });
     });
     describe('Delete /areas/:id', () => {
       it('Delete an specific row by id successfully', async () => {
