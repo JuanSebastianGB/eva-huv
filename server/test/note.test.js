@@ -22,13 +22,13 @@ const {
 const app = require('../server');
 
 const { expect } = chai;
-const { DeviceStatus } = require('../models');
+const { Note } = require('../models');
 
-const ENDPOINT = '/devicestatuses';
+const ENDPOINT = '/notes';
 
 describe('API', () => {
   beforeEach(async () => {
-    const models = [DeviceStatus];
+    const models = [Note];
     truncateModels(models);
   });
   describe(`Get ${ENDPOINT} Get all`, async () => {
@@ -43,14 +43,14 @@ describe('API', () => {
   });
   describe(`Get ${ENDPOINT} Get By Id`, async () => {
     it('return the row by id', async () => {
-      const response = await createOneRow(ENDPOINT, { name: uuidv4() });
+      const response = await createOneRow(ENDPOINT, { description: uuidv4() });
       const { id } = response.data;
       const { status, data, err } = await getOneRow(ENDPOINT, id);
       await expect(status).to.equal(200);
       await expect(typeof data).to.equal('object');
       await expect(err).to.equal(undefined);
     });
-    it('Error when try to get a deviceStatus when id is not a number', async () => {
+    it('Error when try to get a note when id is not a number', async () => {
       const { status, data, err } = await getOneRow(ENDPOINT, 'h');
       await expect(status).to.equal(400);
       await expect(err).to.equal('id must be a number');
@@ -66,18 +66,18 @@ describe('API', () => {
   describe(`Post ${ENDPOINT}`, async () => {
     it('create a new row called created', async () => {
       const { status, data, err } = await createOneRow(ENDPOINT, {
-        name: 'created',
+        description: 'created',
       });
       await expect(status).to.equal(201);
       await expect(typeof data).to.equal('object');
-      await expect(data.name).to.equal('created');
+      await expect(data.description).to.equal('created');
       await expect(err).to.equal(undefined);
     });
     // it('create 5 rows successfully', async () => {
     //   const promises = [];
     //   Promise.all();
     //   for (let index = 0; index < 5; index += 1) {
-    //     promises.push(createOneRow(ENDPOINT, { name: uuidv4() }));
+    //     promises.push(createOneRow(ENDPOINT, { description: uuidv4() }));
     //   }
     //   const result = await Promise.all(promises);
     //   const { data } = await getAllRow(ENDPOINT);
@@ -86,7 +86,7 @@ describe('API', () => {
   });
   describe(`Delete ${ENDPOINT}/:id`, () => {
     it('Delete an specific row by id successfully', async () => {
-      const response = await createOneRow(ENDPOINT, { name: uuidv4() });
+      const response = await createOneRow(ENDPOINT, { description: uuidv4() });
       const { id } = await response.data;
       const { status, data, err } = await deleteOneRow(ENDPOINT, id);
       await expect(status).to.equal(200);
@@ -102,13 +102,13 @@ describe('API', () => {
   });
   describe(`PUT ${ENDPOINT}/id`, () => {
     it('Update a row successfully', async () => {
-      const newRow = await createOneRow(ENDPOINT, { name: uuidv4() });
+      const newRow = await createOneRow(ENDPOINT, { description: uuidv4() });
       const { status, err } = await updateOneRow(ENDPOINT, newRow.data.id, {
-        name: 'updated',
+        description: 'updated',
       });
       const { data } = await getOneRow(ENDPOINT, newRow.data.id);
       await expect(status).to.equal(200);
-      await expect(data.name).to.equal('updated');
+      await expect(data.description).to.equal('updated');
       await expect(err).to.equal(undefined);
     });
     it("Error when try to update  a row that doesn't exists", async () => {
@@ -116,7 +116,7 @@ describe('API', () => {
       await expect(status).to.equal(400);
       await expect(err).to.equal('Not Found');
     });
-    it('Error when try to update a deviceStatus when id is not a number', async () => {
+    it('Error when try to update a note when id is not a number', async () => {
       const { data, status, err } = await updateOneRow(ENDPOINT, 'h');
       await expect(status).to.equal(400);
       await expect(err).to.equal('id must be a number');

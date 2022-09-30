@@ -19,6 +19,8 @@ module.exports = {
           model: { tableName: 'Devices' },
           key: 'id',
         },
+        allowNull: true,
+        onDelete: 'SET NULL',
       },
       userId: {
         type: Sequelize.INTEGER,
@@ -26,6 +28,8 @@ module.exports = {
           model: { tableName: 'Users' },
           key: 'id',
         },
+        allowNull: true,
+        onDelete: 'SET NULL',
       },
       noteDate: {
         type: Sequelize.DATE,
