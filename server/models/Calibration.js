@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Calibration.init(
     {
-      description: DataTypes.STRING,
+      code: DataTypes.STRING,
       file: DataTypes.STRING,
       deviceId: DataTypes.INTEGER,
       calibrationDate: DataTypes.DATE,
