@@ -1,40 +1,34 @@
-import React from 'react';
-import './App.css';
-import Test from './components/Test/Test';
-import { useEffect, useState } from 'react';
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import './App.css'
 
-const data = [
-  {
-    id: 1,
-    name: 'test1',
-  },
-  {
-    id: 2,
-    name: 'test2',
-  },
-];
 function App() {
-  const [info, setInfo] = useState([
-    {
-      name: '',
-      id: 0,
-      Areas: [],
-      Devices: [],
-    },
-  ]);
+  const [count, setCount] = useState(0)
 
-  useEffect(() => {
-    (async () => {
-      const data = await fetch('http://localhost:5000/services');
-      const jsonData = await data.json();
-      setInfo(jsonData.response);
-    })();
-  }, []);
   return (
     <div className="App">
-      <Test data={info} />
+      <div>
+        <a href="https://vitejs.dev" target="_blank">
+          <img src="/vite.svg" className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://reactjs.org" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1>Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.tsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
