@@ -1,15 +1,12 @@
-import { Services } from '@/pages';
-import { useSelector } from 'react-redux';
+import { Services, ServicesProvider } from '@/pages';
 import './App.css';
-import { AppStore, Service } from './models';
 
 function App() {
-  const servicesState: Service[] = useSelector(
-    (store: AppStore): Service[] => store.services
-  );
   return (
     <div className="App">
-      <Services />
+      <ServicesProvider>
+        <Services />
+      </ServicesProvider>
     </div>
   );
 }

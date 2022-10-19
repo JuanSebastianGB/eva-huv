@@ -1,8 +1,9 @@
 import { fetchServices } from '@/services';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useServicesContext } from '../context';
 
 const useServicesTable = (): any => {
-  const [listServices, setListServices] = useState([]);
+  const { listServices, setListServices } = useServicesContext() as any;
 
   useEffect((): void => {
     (async (): Promise<void> => {

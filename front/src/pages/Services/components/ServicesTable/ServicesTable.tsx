@@ -1,14 +1,10 @@
 import { Service } from '@/models';
+import { useServicesContext } from '../../context';
 import { ServicesTableRow } from '../ServicesTableRow';
 export interface ServicesTableInterface {}
 
-interface Props {
-  listServices: Service[];
-  setListServices: any;
-}
-
-const ServicesTable = (props: Props) => {
-  const { listServices } = props;
+const ServicesTable = () => {
+  const { listServices } = useServicesContext() as any;
   return (
     <table>
       <thead>
@@ -21,12 +17,7 @@ const ServicesTable = (props: Props) => {
       <tbody>
         {listServices &&
           listServices.map((service: Service) => (
-            <ServicesTableRow
-              key={service.id}
-              service={service}
-              setListServices={props.setListServices}
-              listServices={listServices}
-            />
+            <ServicesTableRow key={service.id} service={service} />
           ))}
       </tbody>
     </table>

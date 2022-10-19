@@ -1,19 +1,15 @@
 import { Service } from '@/models';
 import { fetchDeleteService } from '@/services';
 import { AiFillDelete } from 'react-icons/ai';
+import { useServicesContext } from '../../context';
 
 export interface ServicesTableRowInterface {}
 
 interface Props {
   service: Service;
-  setListServices: any;
-  listServices: Service[];
 }
-const ServicesTableRow = ({
-  service,
-  setListServices,
-  listServices,
-}: Props) => {
+const ServicesTableRow = ({ service }: Props) => {
+  const { listServices, setListServices } = useServicesContext() as any;
   const handleDeleteService = async () => {
     const deletedServiceResponse = await fetchDeleteService(service.id);
     const { response } = deletedServiceResponse;
