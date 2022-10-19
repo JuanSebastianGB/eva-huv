@@ -1,7 +1,7 @@
 import { Service } from '@/models';
+import { useServicesContext } from '@/pages/Services/context';
 import { fetchDeleteService } from '@/services';
 import { AiFillDelete } from 'react-icons/ai';
-import { useServicesContext } from '../../context';
 
 export interface ServicesTableRowInterface {}
 
@@ -27,7 +27,7 @@ const ServicesTableRow = ({ service }: Props) => {
       <td>{service.name}</td>
       <td>
         <button onClick={handleDeleteService}>
-          <AiFillDelete />
+          <AiFillDelete color="red" />
         </button>
       </td>
     </tr>

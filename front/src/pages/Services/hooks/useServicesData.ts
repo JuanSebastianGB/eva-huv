@@ -1,9 +1,19 @@
-import { fetchServices } from '@/services';
+import { createServiceAdapter } from '@/adapters';
+import { fetchCreateService, fetchServices } from '@/services';
 import { useEffect } from 'react';
+import uuid from 'react-uuid';
 import { useServicesContext } from '../context';
 
 const useServicesTable = (): any => {
   const { listServices, setListServices } = useServicesContext() as any;
+  const handleCreateService = async () => {
+    const serviceToCreate = { name: 'new test service' + uuid() };
+    const createdService = await fetchCreateService(serviceToCreate);
+    const { response } = createdService;
+    if (!response.err) {
+      setListServices([...listServices, createServiceAdapter(response)]);
+    }
+  };
 
   useEffect((): void => {
     (async (): Promise<void> => {
@@ -12,7 +22,7 @@ const useServicesTable = (): any => {
     })();
   }, []);
 
-  return { listServices, setListServices };
+  return { listServices, setListServices, handleCreateService };
 };
 
 export default useServicesTable;
