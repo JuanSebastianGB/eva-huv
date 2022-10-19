@@ -1,4 +1,4 @@
-import { Home } from '@/pages';
+import { Services } from '@/pages';
 import { useSelector } from 'react-redux';
 import './App.css';
 import { AppStore, Service } from './models';
@@ -9,8 +9,7 @@ function App() {
   );
   return (
     <div className="App">
-      <Home />
-      <pre>{JSON.stringify(servicesState, null, 2)}</pre>
+      <Services />
     </div>
   );
 }

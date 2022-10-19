@@ -5,3 +5,32 @@ export const fetchServices = async () => {
   const data = await fetch(`${servicesBaseUrl}`);
   return await data.json();
 };
+
+export const fetchCreateService = async (serviceToCreate: any) => {
+  const objectRequest = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(serviceToCreate),
+  };
+  try {
+    const response = await fetch(servicesBaseUrl, objectRequest);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchDeleteService = async (id: number) => {
+  const objectRequest = {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+  };
+  try {
+    const response = await fetch(`${servicesBaseUrl}/${id}`, objectRequest);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
