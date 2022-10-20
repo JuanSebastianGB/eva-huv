@@ -1,11 +1,18 @@
 import { urlPaths } from '@/models';
-import { axiosRequest } from '@/utilities';
+import { axiosRequest, getLocalStorage } from '@/utilities';
 
 export const servicesBaseUrl = urlPaths.BASE_SERVICES;
 export const singleServiceUrl = `${servicesBaseUrl}/`;
 
 export const fetchAxiosServices = async () => {
-  const response = await axiosRequest({ url: urlPaths.BASE_SERVICES });
+  const response = await axiosRequest({
+    url: urlPaths.BASE_SERVICES,
+    headers: {
+      'x-access-token': getLocalStorage('x-access-token')
+        ? getLocalStorage('x-access-token')
+        : null,
+    },
+  });
   return response;
 };
 
