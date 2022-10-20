@@ -1,5 +1,5 @@
 import { createServiceAdapter } from '@/adapters';
-import { fetchCreateService, fetchServices } from '@/services';
+import { fetchAxiosServices, fetchCreateService } from '@/services';
 import { useEffect } from 'react';
 import uuid from 'react-uuid';
 import { useServicesContext } from '../context';
@@ -18,8 +18,9 @@ const useServicesTable = (): any => {
 
   useEffect((): void => {
     (async (): Promise<void> => {
-      const services = await fetchServices();
-      setListServices(services.response);
+      // const services = await fetchServices();
+      const services = await fetchAxiosServices();
+      await setListServices(services.data.response);
     })();
   }, []);
 

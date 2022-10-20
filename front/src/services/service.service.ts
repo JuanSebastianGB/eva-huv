@@ -1,9 +1,21 @@
-export const servicesBaseUrl = 'http://localhost:5000/services';
+import { urlPaths } from '@/models';
+import { axiosRequest } from '@/utilities';
+
+export const servicesBaseUrl = urlPaths.BASE_SERVICES;
 export const singleServiceUrl = `${servicesBaseUrl}/`;
 
+export const fetchAxiosServices = async () => {
+  const response = await axiosRequest({ url: urlPaths.BASE_SERVICES });
+  return response;
+};
+
 export const fetchServices = async () => {
-  const data = await fetch(`${servicesBaseUrl}`);
-  return await data.json();
+  try {
+    const data = await fetch(`${servicesBaseUrl}`);
+    return await data.json();
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 export const fetchCreateService = async (serviceToCreate: any) => {
