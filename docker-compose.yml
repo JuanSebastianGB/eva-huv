@@ -4,9 +4,9 @@ services:
   mysql:
     image: mysql:latest
     ports:
-      - "3306:3306"
+      - "5005:3306"
     volumes:
-      - /var/lib/mysql:/var/lib/mysql
+      - ./var/lib/mysql:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: eva
@@ -18,7 +18,7 @@ services:
     image: "redis:alpine"
     command: redis-server
     ports:
-      - "6379:6379"
+      - "6380:6379"
     volumes:
       - redis-data:/data
       - redis-conf:/usr/local/etc/redis/redis.conf

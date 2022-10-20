@@ -11,6 +11,7 @@
     "password": "root",
     "database": "eva-test",
     "host": "127.0.0.1",
+    "port": "5005",
     "dialect": "mysql",
     "logging": false
   },
