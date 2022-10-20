@@ -1,7 +1,7 @@
 import { Service } from '@/models';
 import { useServicesContext } from '@/pages/Services/context';
 import { fetchDeleteService } from '@/services';
-import { AiFillDelete } from 'react-icons/ai';
+import { AiFillDelete, AiOutlineEdit } from 'react-icons/ai';
 
 export interface ServicesTableRowInterface {}
 
@@ -9,7 +9,9 @@ interface Props {
   service: Service;
 }
 const ServicesTableRow = ({ service }: Props) => {
-  const { listServices, setListServices } = useServicesContext() as any;
+  const { servicesState, idState } = useServicesContext() as any;
+  const { listServices, setListServices } = servicesState;
+  const { setServiceId } = idState;
   const handleDeleteService = async () => {
     const deletedServiceResponse = await fetchDeleteService(service.id);
     const { response } = deletedServiceResponse;
@@ -21,6 +23,10 @@ const ServicesTableRow = ({ service }: Props) => {
     }
   };
 
+  const handleOpenFormEditService = (e: any) => {
+    setServiceId(service.id);
+  };
+
   return (
     <tr>
       <td>{service.id}</td>
@@ -28,6 +34,9 @@ const ServicesTableRow = ({ service }: Props) => {
       <td>
         <button onClick={handleDeleteService}>
           <AiFillDelete color="red" />
+        </button>
+        <button onClick={handleOpenFormEditService}>
+          <AiOutlineEdit color="blue" />
         </button>
       </td>
     </tr>

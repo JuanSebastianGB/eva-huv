@@ -5,7 +5,8 @@ import { ServicesTableRow } from '../ServicesTableRow';
 export interface ServicesTableBodyInterface {}
 
 const ServicesTableBody: React.FC<ServicesTableBodyInterface> = () => {
-  const { listServices } = useServicesContext() as any;
+  const { servicesState, idState } = useServicesContext() as any;
+  const { listServices } = servicesState;
   return (
     <tbody>
       {listServices &&

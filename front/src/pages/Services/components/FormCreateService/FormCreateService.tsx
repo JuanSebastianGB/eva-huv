@@ -7,7 +7,7 @@ export interface FormCreateServiceInterface {}
 
 const FormCreateService: React.FC<FormCreateServiceInterface> = () => {
   const [createdService, setCreatedService] = useState(ServiceEmptyState);
-  const { listServices, setListServices } = useServicesContext() as any;
+  const { servicesState } = useServicesContext() as any;
   const handleChange = (e: any) => {
     setCreatedService({ ...createdService, [e.target.name]: e.target.value });
   };
@@ -16,7 +16,10 @@ const FormCreateService: React.FC<FormCreateServiceInterface> = () => {
     const newService = await fetchCreateService(createdService);
     const { response } = newService;
     if (!response.err) {
-      setListServices([...listServices, createServiceAdapter(response)]);
+      servicesState.setListServices([
+        ...servicesState.listServices,
+        createServiceAdapter(response),
+      ]);
     }
   };
 

@@ -9,9 +9,15 @@ export const ServicesContext = createContext({});
 
 export const ServicesProvider = ({ children }: Props) => {
   const [listServices, setListServices] = useState(ServicesEmptyState);
+  const [serviceId, setServiceId] = useState(0);
 
   return (
-    <ServicesContext.Provider value={{ listServices, setListServices }}>
+    <ServicesContext.Provider
+      value={{
+        servicesState: { listServices, setListServices },
+        idState: { serviceId, setServiceId },
+      }}
+    >
       {children}
     </ServicesContext.Provider>
   );

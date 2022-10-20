@@ -21,9 +21,38 @@ export const fetchCreateService = async (serviceToCreate: any) => {
   }
 };
 
+export const fetchUpdateService = async (serviceToUpdate: any, id: number) => {
+  const objectRequest = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(serviceToUpdate),
+  };
+  try {
+    const response = await fetch(`${servicesBaseUrl}/${id}`, objectRequest);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const fetchDeleteService = async (id: number) => {
   const objectRequest = {
     method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+  };
+  try {
+    const response = await fetch(`${servicesBaseUrl}/${id}`, objectRequest);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const fetchOneService = async (id: number) => {
+  const objectRequest = {
+    method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   };
   try {

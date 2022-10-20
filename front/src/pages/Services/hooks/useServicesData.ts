@@ -5,7 +5,8 @@ import uuid from 'react-uuid';
 import { useServicesContext } from '../context';
 
 const useServicesTable = (): any => {
-  const { listServices, setListServices } = useServicesContext() as any;
+  const { servicesState } = useServicesContext() as any;
+  const { listServices, setListServices } = servicesState;
   const handleCreateService = async () => {
     const serviceToCreate = { name: 'new test service' + uuid() };
     const createdService = await fetchCreateService(serviceToCreate);
