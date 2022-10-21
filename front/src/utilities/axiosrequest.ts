@@ -1,4 +1,5 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
+import { getLocalStorage } from './localstorage.utility';
 
 export const axiosRequest = async ({ ...options }): Promise<any> => {
   const client = axios.create({ baseURL: options.url });
@@ -9,3 +10,16 @@ export const axiosRequest = async ({ ...options }): Promise<any> => {
   const onError = (error: any) => error;
   return client(options).then(onSuccess).catch(onError);
 };
+
+const axiosInterceptor = axios.create();
+axiosInterceptor.interceptors.request.use(
+  (request): AxiosRequestConfig<any> => {
+    request.headers = getLocalStorage('x-access-token')
+      ? getLocalStorage('x-access-token')
+      : null;
+    return request;
+  },
+  (error) => Promise.reject(error)
+);
+
+export { axiosInterceptor };

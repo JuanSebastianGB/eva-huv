@@ -1,5 +1,5 @@
 import { Service, urlPaths } from '@/models';
-import axios from 'axios';
+import { axiosInterceptor } from '@/utilities';
 
 export const servicesBaseUrl = urlPaths.BASE_SERVICES;
 export const singleServiceUrl = `${servicesBaseUrl}/`;
@@ -18,7 +18,7 @@ export const fetchAxiosServices = () => {
   // return response;
 
   return {
-    call: axios.get<Service[]>(urlPaths.BASE_SERVICES, { signal }),
+    call: axiosInterceptor.get<Service[]>(urlPaths.BASE_SERVICES, { signal }),
     controller: controller,
   };
 };
