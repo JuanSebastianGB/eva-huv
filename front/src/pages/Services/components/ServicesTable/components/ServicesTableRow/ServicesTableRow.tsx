@@ -17,15 +17,13 @@ const ServicesTableRow = ({ service }: Props) => {
     const { response } = deletedServiceResponse;
     if (!response.err) {
       const EditedServices = listServices.filter(
-        (serviceRow: Service) => serviceRow.id !== service.id
+        (serviceRow: Service): boolean => serviceRow.id !== service.id
       );
       setListServices(EditedServices);
     }
   };
 
-  const handleOpenFormEditService = (e: any) => {
-    setServiceId(service.id);
-  };
+  const handleOpenFormEditService = (): any => setServiceId(service.id);
 
   return (
     <tr>

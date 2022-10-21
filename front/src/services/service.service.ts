@@ -1,19 +1,26 @@
-import { urlPaths } from '@/models';
-import { axiosRequest, getLocalStorage } from '@/utilities';
+import { Service, urlPaths } from '@/models';
+import axios from 'axios';
 
 export const servicesBaseUrl = urlPaths.BASE_SERVICES;
 export const singleServiceUrl = `${servicesBaseUrl}/`;
 
-export const fetchAxiosServices = async () => {
-  const response = await axiosRequest({
-    url: urlPaths.BASE_SERVICES,
-    headers: {
-      'x-access-token': getLocalStorage('x-access-token')
-        ? getLocalStorage('x-access-token')
-        : null,
-    },
-  });
-  return response;
+export const fetchAxiosServices = () => {
+  const controller = new AbortController();
+  const { signal } = controller;
+  // const response = await axiosRequest({
+  //   url: urlPaths.BASE_SERVICES,
+  //   headers: {
+  //     'x-access-token': getLocalStorage('x-access-token')
+  //       ? getLocalStorage('x-access-token')
+  //       : null,
+  //   },
+  // });
+  // return response;
+
+  return {
+    call: axios.get<Service[]>(urlPaths.BASE_SERVICES, { signal }),
+    controller: controller,
+  };
 };
 
 export const fetchServices = async () => {
@@ -40,7 +47,10 @@ export const fetchCreateService = async (serviceToCreate: any) => {
   }
 };
 
-export const fetchUpdateService = async (serviceToUpdate: any, id: number) => {
+export const fetchUpdateService = async (
+  serviceToUpdate: any,
+  id: number
+): Promise<any> => {
   const objectRequest = {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
