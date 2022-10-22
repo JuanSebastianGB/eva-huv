@@ -1,6 +1,7 @@
 import { createServiceAdapter } from '@/adapters';
+import { useFetchAndLoad } from '@/hooks';
 import { ServiceEmptyState } from '@/models';
-import { fetchCreateService } from '@/services';
+import { fetchAxiosCreateService } from '@/services';
 import React, { useState } from 'react';
 import { useServicesContext } from '../../context';
 export interface FormCreateServiceInterface {}
@@ -8,18 +9,22 @@ export interface FormCreateServiceInterface {}
 const FormCreateService: React.FC<FormCreateServiceInterface> = () => {
   const [createdService, setCreatedService] = useState(ServiceEmptyState);
   const { servicesState } = useServicesContext() as any;
+  const { callEndpoint } = useFetchAndLoad();
   const handleChange = (e: any) => {
     setCreatedService({ ...createdService, [e.target.name]: e.target.value });
   };
   const handleCreateService = async (e: any) => {
     e.preventDefault();
-    const newService = await fetchCreateService(createdService);
-    const { response } = newService;
-    if (!response.err) {
+    try {
+      const response = await callEndpoint(
+        fetchAxiosCreateService(createdService)
+      );
       servicesState.setListServices([
         ...servicesState.listServices,
-        createServiceAdapter(response),
+        createServiceAdapter(response.data.response),
       ]);
+    } catch (error) {
+      console.log(error);
     }
   };
 

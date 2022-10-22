@@ -1,94 +1,46 @@
-import { Service, urlPaths } from '@/models';
-import { axiosInterceptor } from '@/utilities';
+import { AxiosCall, Service, urlPaths } from '@/models';
+import { axiosInterceptor, controller } from '@/utilities';
 
-export const servicesBaseUrl = urlPaths.BASE_SERVICES;
-export const singleServiceUrl = `${servicesBaseUrl}/`;
-
-export const fetchAxiosServices = () => {
-  const controller = new AbortController();
+export const fetchAxiosServices = (): AxiosCall<any> => {
   const { signal } = controller;
-  // const response = await axiosRequest({
-  //   url: urlPaths.BASE_SERVICES,
-  //   headers: {
-  //     'x-access-token': getLocalStorage('x-access-token')
-  //       ? getLocalStorage('x-access-token')
-  //       : null,
-  //   },
-  // });
-  // return response;
-
   return {
     call: axiosInterceptor.get<Service[]>(urlPaths.BASE_SERVICES, { signal }),
-    controller: controller,
+    controller,
   };
 };
 
-export const fetchServices = async () => {
-  try {
-    const data = await fetch(`${servicesBaseUrl}`);
-    return await data.json();
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-export const fetchCreateService = async (serviceToCreate: any) => {
-  const objectRequest = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(serviceToCreate),
+export const fetchAxiosCreateService = (service: any): AxiosCall<any> => {
+  const { signal } = controller;
+  return {
+    call: axiosInterceptor.post(urlPaths.BASE_SERVICES, { signal, ...service }),
+    controller,
   };
-  try {
-    const response = await fetch(servicesBaseUrl, objectRequest);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
 };
 
-export const fetchUpdateService = async (
-  serviceToUpdate: any,
+export const fetchAxiosUpdateService = (
+  service: any,
   id: number
-): Promise<any> => {
-  const objectRequest = {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(serviceToUpdate),
+): AxiosCall<any> => {
+  const { signal } = controller;
+  return {
+    call: axiosInterceptor.put(`${urlPaths.BASE_SERVICES}/${id}`, {
+      ...service,
+      signal,
+    }),
+    controller,
   };
-  try {
-    const response = await fetch(`${servicesBaseUrl}/${id}`, objectRequest);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
 };
 
-export const fetchDeleteService = async (id: number) => {
-  const objectRequest = {
-    method: 'DELETE',
-    headers: { 'Content-Type': 'application/json' },
+export const fetchAxiosDeleteService = (id: number): AxiosCall<any> => {
+  return {
+    call: axiosInterceptor.delete(`${urlPaths.BASE_SERVICES}/${id}`),
+    controller,
   };
-  try {
-    const response = await fetch(`${servicesBaseUrl}/${id}`, objectRequest);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
 };
 
-export const fetchOneService = async (id: number) => {
-  const objectRequest = {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
+export const fetchAxiosOneService = (id: number): AxiosCall<any> => {
+  return {
+    call: axiosInterceptor.get(`${urlPaths.BASE_SERVICES}/${id}`),
+    controller,
   };
-  try {
-    const response = await fetch(`${servicesBaseUrl}/${id}`, objectRequest);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
 };

@@ -11,8 +11,12 @@ const useServicesTable = (): any => {
 
   useEffect((): void => {
     (async (): Promise<void> => {
-      const services = await callEndpoint(fetchAxiosServices());
-      setListServices(services.data.response);
+      try {
+        const services = await callEndpoint(fetchAxiosServices());
+        setListServices(services.data.response);
+      } catch (error) {
+        console.log(error);
+      }
     })();
   }, []);
 

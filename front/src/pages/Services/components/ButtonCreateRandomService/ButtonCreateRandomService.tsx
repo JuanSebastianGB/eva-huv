@@ -1,5 +1,6 @@
 import { createServiceAdapter } from '@/adapters';
-import { fetchCreateService } from '@/services';
+import { useFetchAndLoad } from '@/hooks';
+import { fetchAxiosCreateService } from '@/services';
 import React from 'react';
 import uuid from 'react-uuid';
 import { useServicesContext } from '../../context';
@@ -11,12 +12,21 @@ const ButtonCreateRandomService: React.FC<
 > = () => {
   const { servicesState } = useServicesContext() as any;
   const { listServices, setListServices } = servicesState;
+  const { callEndpoint } = useFetchAndLoad();
+
   const handleCreateService = async (): Promise<void> => {
     const serviceToCreate = { name: uuid() };
-    const createdService = await fetchCreateService(serviceToCreate);
-    const { response } = createdService;
-    if (!response.err) {
-      setListServices([...listServices, createServiceAdapter(response)]);
+
+    try {
+      const response = await callEndpoint(
+        fetchAxiosCreateService(serviceToCreate)
+      );
+      setListServices([
+        ...listServices,
+        createServiceAdapter(response.data.response),
+      ]);
+    } catch (error) {
+      console.log(error);
     }
   };
   return <button onClick={handleCreateService}>Create Service</button>;

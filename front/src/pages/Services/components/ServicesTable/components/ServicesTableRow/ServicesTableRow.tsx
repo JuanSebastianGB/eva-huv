@@ -1,6 +1,7 @@
+import { useFetchAndLoad } from '@/hooks';
 import { Service } from '@/models';
 import { useServicesContext } from '@/pages/Services/context';
-import { fetchDeleteService } from '@/services';
+import { fetchAxiosDeleteService } from '@/services';
 import { AiFillDelete, AiOutlineEdit } from 'react-icons/ai';
 
 export interface ServicesTableRowInterface {}
@@ -12,14 +13,16 @@ const ServicesTableRow = ({ service }: Props) => {
   const { servicesState, idState } = useServicesContext() as any;
   const { listServices, setListServices } = servicesState;
   const { setServiceId } = idState;
+  const { callEndpoint } = useFetchAndLoad();
   const handleDeleteService = async () => {
-    const deletedServiceResponse = await fetchDeleteService(service.id);
-    const { response } = deletedServiceResponse;
-    if (!response.err) {
+    try {
+      await callEndpoint(fetchAxiosDeleteService(service.id));
       const EditedServices = listServices.filter(
         (serviceRow: Service): boolean => serviceRow.id !== service.id
       );
       setListServices(EditedServices);
+    } catch (error) {
+      console.log(error);
     }
   };
 
