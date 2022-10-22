@@ -2,9 +2,8 @@ import { AxiosCall, Service, urlPaths } from '@/models';
 import { axiosInterceptor, controller } from '@/utilities';
 
 export const fetchAxiosServices = (): AxiosCall<any> => {
-  const { signal } = controller;
   return {
-    call: axiosInterceptor.get<Service[]>(urlPaths.BASE_SERVICES, { signal }),
+    call: axiosInterceptor.get<Service[]>(urlPaths.BASE_SERVICES),
     controller,
   };
 };

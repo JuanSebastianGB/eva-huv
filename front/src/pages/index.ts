@@ -1,4 +1,6 @@
 export * from './Home';
+export * from './Login';
+export * from './Private';
 export * from './Services';
 export * from './Services/components';
 export * from './Services/components/ButtonCreateRandomService';
