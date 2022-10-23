@@ -26,8 +26,11 @@ class UsersController {
     const userFound = await User.findAll({ where: { email } });
     if (userFound.length > 0) return res.json({ err: 'Already exists' });
     const userToCreate = { email, password: hashedPassword };
+
     const userCreated = await User.create(userToCreate);
+
     const { id } = userCreated;
+
     const expiresIn = 86400;
     const token = sign({ id }, JWT_SECRET, { expiresIn });
 

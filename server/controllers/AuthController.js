@@ -10,6 +10,8 @@ const { JWT_SECRET } = process.env;
 const error = 'Unauthorized';
 const { User } = require('../models');
 
+const getUserNameFromEmail = (email) => email.split('@', 1)[0];
+
 class AuthController {
   /**
    * It checks if the user is authorized, if so, it creates a token and stores it in redis
@@ -93,7 +95,14 @@ class AuthController {
       const expiresIn = 86400;
 
       const token = sign({ id }, JWT_SECRET, { expiresIn });
-      return res.status(200).json({ token });
+      const userToReturn = {
+        email: userFound[0].email,
+        name: userFound[0].name || getUserNameFromEmail(userFound[0].email),
+      };
+      return res.status(200).json({
+        token,
+        user: userToReturn,
+      });
     } catch (error) {
       return res.status(403).json({ error });
     }

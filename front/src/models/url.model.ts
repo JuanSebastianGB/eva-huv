@@ -4,4 +4,5 @@ const basePath = 'http://localhost:5000';
 export const urlPaths = {
   BASE: basePath,
   BASE_SERVICES: `${basePath}/services`,
+  BASE_LOGIN: `${basePath}/auth/signup`,
 };
