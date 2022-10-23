@@ -92,7 +92,8 @@ class AuthController {
       }
 
       const { id } = userFound[0];
-      const expiresIn = 86400;
+      // const expiresIn = 86400;
+      const expiresIn = '1h';
 
       const token = sign({ id }, JWT_SECRET, { expiresIn });
       const userToReturn = {
@@ -126,6 +127,22 @@ class AuthController {
       return res.status(200).json(permissions);
     } catch (err) {
       return res.status(400).json({ err });
+    }
+  }
+
+  static checkToken(req, res) {
+    const { headers } = req;
+
+    try {
+      const { verify } = jwt;
+      const token = headers['x-access-token'];
+      if (!token) return res.status(403).json({ message: 'token required' });
+      const verifiedToken = verify(token, JWT_SECRET);
+      const { id } = verifiedToken;
+      if (id) return res.status(200).json({ validToken: true });
+      return res.status(400).json({ validToken: false });
+    } catch (error) {
+      return res.status(400).json({ validToken: false });
     }
   }
 }

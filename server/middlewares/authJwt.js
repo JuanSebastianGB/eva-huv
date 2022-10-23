@@ -18,10 +18,10 @@ const verifyToken = async (req, res, next) => {
   if (headers.skip) return next();
   try {
     const token = headers['x-access-token'];
-    console.log(token);
+
     if (!token) return res.status(403).json({ message: 'token required' });
     const verifiedToken = verify(token, JWT_SECRET);
-    console.log({ verifiedToken });
+
     const { id } = verifiedToken;
     req.userId = id;
     const user = await User.findAll({ where: { id } });
