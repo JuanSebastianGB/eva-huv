@@ -14,3 +14,6 @@ export const getLocalStorage = (key: string) => {
 
 export const deleteFromLocalStorage = (key: string) =>
   localStorage.removeItem(key);
+
+export const deleteManyFormLocalStorage = (data: string[]) =>
+  data.map((key: string) => deleteFromLocalStorage(key));

@@ -14,19 +14,8 @@ export const fetchCharacter = async () => {
   }
 };
 
-export const fetchLogin = async (user: any) => {
-  const options = {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ ...user }),
-  };
-  try {
-    const response = await fetch(urlPaths.BASE_LOGIN, options);
-    return await response.json();
-  } catch (error) {
-    return { error };
-  }
-};
-
 export const fetchAxiosLogin = async (data: any) =>
   await axiosInterceptor.post(urlPaths.BASE_LOGIN, { ...data });
+
+export const fetchAxiosTokenValidation = async () =>
+  await axiosInterceptor.get(urlPaths.TOKEN_VALIDATION);

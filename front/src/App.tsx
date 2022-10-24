@@ -1,37 +1,46 @@
-import { Login, Private } from '@/pages';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { lazy, Suspense } from 'react';
+import { Provider } from 'react-redux';
 import { BrowserRouter, Navigate, Route } from 'react-router-dom';
 import './App.css';
-import { Footer, Header } from './components';
+import { LoadRedirection } from './components';
 import { AuthGuard } from './guards';
 import { PrivateRoutes, PublicRoutes } from './models';
-import { createUser } from './redux/states/userSlice';
-import { getLocalStorage, RoutesWithNotFound } from './utilities';
-
+import { store } from './redux';
+import { RoutesWithNotFound } from './utilities';
+const Login = lazy(() => import('@/pages/Login/Login'));
+const Header = lazy(() => import('@/components/Header/Header'));
+const Footer = lazy(() => import('@/components/Footer/Footer'));
+const Private = lazy(() => import('@/pages/Private/Private'));
 function App() {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    (() => {
-      if (getLocalStorage('user')) {
-        dispatch(createUser(getLocalStorage('user')));
-      }
-    })();
-  }, []);
   return (
     <div className="App">
-      <BrowserRouter>
-        <Header />
-        <RoutesWithNotFound>
-          <Route path="/*" element={<>Not found</>} />
-          <Route path="/" element={<Navigate to={PrivateRoutes.PRIVATE} />} />
-          <Route path={PublicRoutes.LOGIN} element={<Login />} />
-          <Route element={<AuthGuard />}>
-            <Route path={`${PrivateRoutes.PRIVATE}/*`} element={<Private />} />
-          </Route>
-        </RoutesWithNotFound>
-        <Footer />
-      </BrowserRouter>
+      <Suspense
+        fallback={
+          <>
+            <LoadRedirection />
+          </>
+        }
+      >
+        <Provider store={store}>
+          <BrowserRouter>
+            <Header />
+            <RoutesWithNotFound>
+              <Route
+                path="/"
+                element={<Navigate to={PrivateRoutes.PRIVATE} />}
+              />
+              <Route path={PublicRoutes.LOGIN} element={<Login />} />
+              <Route element={<AuthGuard privateValidation={true} />}>
+                <Route
+                  path={`${PrivateRoutes.PRIVATE}/*`}
+                  element={<Private />}
+                />
+              </Route>
+            </RoutesWithNotFound>
+            <Footer />
+          </BrowserRouter>
+        </Provider>
+      </Suspense>
     </div>
   );
 }

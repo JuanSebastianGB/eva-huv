@@ -1,18 +1,27 @@
-import { AppStore, PublicRoutes, User } from '@/models';
-import { getLocalStorage } from '@/utilities';
-import React from 'react';
+import { AppStore, PrivateRoutes, PublicRoutes, User } from '@/models';
 import { useSelector } from 'react-redux';
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 export interface AuthInterface {}
 
-const AuthGuard: React.FC<AuthInterface> = () => {
+interface Props {
+  privateValidation: boolean;
+}
+
+const PrivateValidationFragment = <Outlet />;
+const PublicValidationFragment = (
+  <Navigate replace to={PrivateRoutes.PRIVATE} />
+);
+
+const AuthGuard = ({ privateValidation }: Props) => {
   const userState = useSelector((store: AppStore): User => store.user);
-  const userFromLocalStorage = getLocalStorage('user');
-  let location = useLocation();
-  return userFromLocalStorage ? (
-    <Outlet />
+  return !!userState.email ? (
+    privateValidation ? (
+      PrivateValidationFragment
+    ) : (
+      PublicValidationFragment
+    )
   ) : (
-    <Navigate to={`${PublicRoutes.LOGIN}`} state={{ from: location }} />
+    <Navigate replace to={PublicRoutes.LOGIN} />
   );
 };
 

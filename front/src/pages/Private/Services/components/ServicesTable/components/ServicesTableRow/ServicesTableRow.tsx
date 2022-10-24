@@ -1,6 +1,6 @@
 import { useFetchAndLoad } from '@/hooks';
 import { Service } from '@/models';
-import { useServicesContext } from '@/pages/Services/context';
+import { useServicesContext } from '@/pages/Private/Services/context';
 import { fetchAxiosDeleteService } from '@/services';
 import { AiFillDelete, AiOutlineEdit } from 'react-icons/ai';
 

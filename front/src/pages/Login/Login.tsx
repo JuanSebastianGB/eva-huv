@@ -1,10 +1,11 @@
 import { createUserAdapter } from '@/adapters';
-import { PrivateRoutes } from '@/models';
-import { createUser } from '@/redux/states/userSlice';
+import { PrivateRoutes, PublicRoutes } from '@/models';
+import { createUser, resetUser } from '@/redux/states/userSlice';
 import { fetchAxiosLogin } from '@/services';
-import { setLocalStorage } from '@/utilities';
+import { deleteManyFormLocalStorage, setLocalStorage } from '@/utilities';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Container, TextField } from '@mui/material';
+import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -36,10 +37,16 @@ const Login = () => {
 
     if (!response.data.error) {
       setLocalStorage('x-access-token', response.data.token);
-      dispatch(createUser(response.data.user));
+      dispatch(createUser({ ...response.data.user, isLoggedIn: true }));
       navigate(`/${PrivateRoutes.PRIVATE}`, { replace: true });
     }
   };
+
+  useEffect(() => {
+    dispatch(resetUser());
+    deleteManyFormLocalStorage(['user', 'x-access-token']);
+    navigate(`/${PublicRoutes.LOGIN}`, { replace: true });
+  }, []);
 
   return (
     <div>
@@ -54,15 +61,6 @@ const Login = () => {
             {...register('email')}
           />
           {errors.email && <p role="alert">{errors.email?.message}</p>}
-          {/* <TextField
-            label="username"
-            type="text"
-            fullWidth
-            autoFocus
-            autoComplete="username"
-            {...register('name')}
-          /> */}
-          {/* {errors.name && errors.name?.message} */}
           <TextField
             label="password"
             type="password"

@@ -136,7 +136,7 @@ class AuthController {
     try {
       const { verify } = jwt;
       const token = headers['x-access-token'];
-      if (!token) return res.status(403).json({ message: 'token required' });
+      if (!token) return res.status(403).json({ validToken: false });
       const verifiedToken = verify(token, JWT_SECRET);
       const { id } = verifiedToken;
       if (id) return res.status(200).json({ validToken: true });

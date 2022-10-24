@@ -7,7 +7,9 @@ export const RoutesWithNotFound = ({ children }: Props) => {
   return (
     <Routes>
       {children}
-      <Route path="*" element={<>Not Found</>} />
+      <Route path="*" element={<div>Not Found</div>} />
     </Routes>
   );
 };
+
+export default RoutesWithNotFound;

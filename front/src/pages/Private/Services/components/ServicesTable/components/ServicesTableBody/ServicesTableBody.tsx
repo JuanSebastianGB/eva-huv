@@ -1,5 +1,5 @@
 import { Service } from '@/models';
-import { useServicesContext } from '@/pages/Services/context';
+import { useServicesContext } from '@/pages/Private/Services/context';
 import React from 'react';
 import { ServicesTableRow } from '../ServicesTableRow';
 export interface ServicesTableBodyInterface {}
