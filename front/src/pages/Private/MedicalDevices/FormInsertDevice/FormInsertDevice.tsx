@@ -1,3 +1,4 @@
+import { SelectServices } from '@/components';
 import React from 'react';
 import { useParams } from 'react-router-dom';
 export interface FormInsertDeviceInterface {}
@@ -19,7 +20,7 @@ const FormInsertDevice: React.FC<FormInsertDeviceInterface> = () => {
         <span>Editing id{id}</span>
         <input
           style={{
-            borderRadius: '10px;',
+            borderRadius: '10px',
             padding: '1rem',
             border: 'none',
             display: 'block',
@@ -29,6 +30,9 @@ const FormInsertDevice: React.FC<FormInsertDeviceInterface> = () => {
           name="name"
           placeholder="name"
         />
+        <SelectServices />
+        <SelectServices />
+        <SelectServices />
       </form>
     </div>
   );
