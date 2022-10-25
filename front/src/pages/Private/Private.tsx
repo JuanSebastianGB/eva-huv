@@ -2,6 +2,7 @@ import { PrivateRoutes } from '@/models';
 import { RoutesWithNotFound } from '@/utilities';
 import React, { lazy } from 'react';
 import { Navigate, Route } from 'react-router-dom';
+import { FormInsertDevice } from './MedicalDevices';
 import { ServicesProvider } from './Services';
 export interface PrivateInterface {}
 
@@ -18,6 +19,10 @@ const Private: React.FC<PrivateInterface> = () => {
       <Route
         path={PrivateRoutes.MEDICAL_DEVICES}
         element={<MedicalDevices />}
+      />
+      <Route
+        path={`${PrivateRoutes.MEDICAL_DEVICES}/:id`}
+        element={<FormInsertDevice />}
       />
       <Route path={PrivateRoutes.AREAS} element={<Areas />} />
       <Route

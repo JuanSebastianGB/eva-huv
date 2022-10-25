@@ -1,17 +1,60 @@
-import React, { Fragment } from 'react';
+import { PrivateRoutes } from '@/models';
+import { fetchMedicalDevices } from '@/services/medicaldevices.service';
+import React, { Fragment, useEffect, useState } from 'react';
+import { AiFillDelete } from 'react-icons/ai';
+import { Link, useNavigate } from 'react-router-dom';
 export interface MedicalDevicesInterface {}
 
+interface Device {
+  id: number;
+  name: string;
+}
+
 const MedicalDevices: React.FC<MedicalDevicesInterface> = () => {
+  const [medicalDevices, setMedicalDevices] = useState([]);
+  const navigate = useNavigate();
+  const handleOpenFormEdit = (id: number) => {
+    navigate(`/${PrivateRoutes.MEDICAL_DEVICES}/${id}`, { replace: true });
+  };
+
+  useEffect(() => {
+    (async () => {
+      const response = (await fetchMedicalDevices()) as any;
+      setMedicalDevices(response.data.response);
+    })();
+  }, []);
+
   return (
     <Fragment>
-      <h3>MedicalDevices</h3>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla ea
-        dignissimos vel iste iusto minima at delectus, expedita quidem illo
-        omnis est eligendi alias maiores deserunt ex odit, facere amet error
-        rerum velit voluptatum? Mollitia asperiores ipsa iste. Nihil quasi odit
-        adipisci dolore nemo quos mollitia qui nobis enim illo.
-      </p>
+      <h3>Medical Devices</h3>
+      <pre>{JSON.stringify(medicalDevices, null, 2)}</pre>
+      <table>
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {medicalDevices &&
+            medicalDevices.map((device: Device) => {
+              return (
+                <tr key={device.id}>
+                  <td>{device.id}</td>
+                  <td>{device.name}</td>
+                  <td>
+                    <Link
+                      to={`/private/${PrivateRoutes.MEDICAL_DEVICES}/${device.id}`}
+                    >
+                      <AiFillDelete />
+                    </Link>
+                  </td>
+                </tr>
+              );
+            })}
+        </tbody>
+      </table>
     </Fragment>
   );
 };
