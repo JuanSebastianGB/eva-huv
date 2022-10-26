@@ -1,5 +1,5 @@
 import { useFetchAndLoad } from '@/hooks';
-import { Orbit } from '@uiball/loaders';
+import { Ring } from '@uiball/loaders';
 import React, { Fragment } from 'react';
 import {
   FormCreateService,
@@ -19,8 +19,14 @@ const Services: React.FC<ServicesInterface> = () => {
   return (
     <Fragment>
       <h3>Services</h3>
-      <ButtonCreateRandomService />
-      {!load ? <ServicesTable /> : <Orbit size={150} color="#231F20" />}
+      {!load ? (
+        <Fragment>
+          <ButtonCreateRandomService />
+          <ServicesTable />
+        </Fragment>
+      ) : (
+        <Ring size={40} lineWeight={5} speed={2} color="black" />
+      )}
       {idState.serviceId !== 0 ? <FormUpdateService /> : <FormCreateService />}
     </Fragment>
   );
