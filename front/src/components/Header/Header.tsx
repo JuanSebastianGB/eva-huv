@@ -3,6 +3,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { LogoutButton } from '../LogoutButton';
+import { ShowOnLogout } from '../ShowOnLogout';
 import './Header.scss';
 export interface HeaderInterface {}
 
@@ -15,11 +16,19 @@ const Header: React.FC<HeaderInterface> = () => {
         <Link to="/login">EVA</Link>
       </div>
       <div className="menu">
-        <Link to={'/private/services'}>Services</Link>
-        <Link to={'/private/areas'}>Areas</Link>
-        <Link to={'/private/medicaldevices'}>Medical devices</Link>
+        <ShowOnLogout>
+          <Link to={'/private/services'}>Services</Link>
+        </ShowOnLogout>
+        <ShowOnLogout>
+          <Link to={'/private/areas'}>Areas</Link>
+        </ShowOnLogout>
+        <ShowOnLogout>
+          <Link to={'/private/medicaldevices'}>Medical devices</Link>
+        </ShowOnLogout>
       </div>
-      {!!userState?.email && <LogoutButton />}
+      <ShowOnLogout>
+        <LogoutButton />
+      </ShowOnLogout>
     </div>
   );
 };

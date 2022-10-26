@@ -11,7 +11,7 @@ const Footer: React.FC<FooterInterface> = () => {
   return (
     <footer className="footer">
       <div className="version">
-        Copyright @ {getActualDate()}. All rights Reserved{' '}
+        Copyright @ {getActualDate()}. All rights Reserved
       </div>
     </footer>
   );
