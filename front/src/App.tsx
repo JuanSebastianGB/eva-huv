@@ -1,12 +1,13 @@
+import { Ring } from '@uiball/loaders';
 import { lazy, Suspense } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Navigate, Route } from 'react-router-dom';
 import './App.css';
-import { LoadRedirection } from './components';
 import { AuthGuard } from './guards';
 import { PrivateRoutes, PublicRoutes } from './models';
 import { store } from './redux';
 import { RoutesWithNotFound } from './utilities';
+
 const Login = lazy(() => import('@/pages/Login/Login'));
 const Header = lazy(() => import('@/components/Header/Header'));
 const Footer = lazy(() => import('@/components/Footer/Footer'));
@@ -17,7 +18,7 @@ function App() {
       <Suspense
         fallback={
           <>
-            <LoadRedirection />
+            <Ring size={40} lineWeight={5} speed={2} color="black" />
           </>
         }
       >
