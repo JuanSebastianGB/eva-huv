@@ -1,5 +1,5 @@
-import { AppStore } from '@/models';
-import React from 'react';
+import { AppStore, User } from '@/models';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { LogoutButton } from '../LogoutButton';
@@ -8,7 +8,8 @@ import './Header.scss';
 export interface HeaderInterface {}
 
 const Header: React.FC<HeaderInterface> = () => {
-  const userState = useSelector((store: AppStore) => store.user);
+  const userState = useSelector((store: AppStore): User => store.user);
+  useEffect(() => {}, [userState]);
 
   return (
     <div className="header">
