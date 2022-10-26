@@ -11,10 +11,14 @@ const Header: React.FC<HeaderInterface> = () => {
 
   return (
     <div className="header">
-      <h2>Header</h2>
-      <Link to={'/private/services'}>Services</Link>
-      <Link to={'/private/areas'}>Areas</Link>
-      <Link to={'/private/medicaldevices'}>Medical devices</Link>
+      <div className="logo">
+        <Link to="/login">EVA</Link>
+      </div>
+      <div className="menu">
+        <Link to={'/private/services'}>Services</Link>
+        <Link to={'/private/areas'}>Areas</Link>
+        <Link to={'/private/medicaldevices'}>Medical devices</Link>
+      </div>
       {!!userState?.email && <LogoutButton />}
     </div>
   );
