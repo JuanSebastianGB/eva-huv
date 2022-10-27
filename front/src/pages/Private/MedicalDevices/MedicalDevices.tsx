@@ -1,7 +1,8 @@
 import { PrivateRoutes } from '@/models';
 import { fetchMedicalDevices } from '@/services/medicaldevices.service';
+import { Button, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 export interface MedicalDevicesInterface {}
 
@@ -14,12 +15,13 @@ const StyledContainer = styled.div`
   max-width: 1000px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-column-gap: 1rem;
+  gap: 1.5rem;
+  padding: 1rem;
 `;
 
 const Card = styled.div`
-  width: 350x;
-  height: 400px;
+  width: 300x;
+  height: 350px;
   display: flex;
   align-items: center;
   border: thin solid gray;
@@ -38,6 +40,8 @@ const Card = styled.div`
     top: 5px;
     right: 5px;
   }
+
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px 0px;
 `;
 
 const MedicalDevices: React.FC<MedicalDevicesInterface> = () => {
@@ -56,8 +60,14 @@ const MedicalDevices: React.FC<MedicalDevicesInterface> = () => {
 
   return (
     <div>
-      <h3>Medical Devices</h3>
-
+      <Typography variant="h4" align="center">
+        Medical Devices
+      </Typography>
+      <Link to="/private/medicaldevices/insert">
+        <Button color="primary" fullWidth variant="contained">
+          Insert
+        </Button>
+      </Link>
       <StyledContainer>
         {medicalDevices &&
           medicalDevices.map((device: Device) => {

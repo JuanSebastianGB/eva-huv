@@ -21,7 +21,7 @@ const Private: React.FC<PrivateInterface> = () => {
         element={<MedicalDevices />}
       />
       <Route
-        path={`${PrivateRoutes.MEDICAL_DEVICES}/:id`}
+        path={`${PrivateRoutes.MEDICAL_DEVICES}/insert`}
         element={<FormInsertDevice />}
       />
       <Route path={PrivateRoutes.AREAS} element={<Areas />} />

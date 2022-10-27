@@ -1,6 +1,7 @@
 import { PublicRoutes } from '@/models';
 import { resetUser } from '@/redux/states/userSlice';
 import { deleteManyFormLocalStorage } from '@/utilities';
+import { Button } from '@mui/material';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -16,7 +17,14 @@ const LogoutButton: React.FC<LogoutInterface> = () => {
   };
   return (
     <div className="logout">
-      <button onClick={handleLogOut}>Logout</button>
+      <Button
+        color="warning"
+        size="medium"
+        variant="outlined"
+        onClick={handleLogOut}
+      >
+        Logout
+      </Button>
     </div>
   );
 };
