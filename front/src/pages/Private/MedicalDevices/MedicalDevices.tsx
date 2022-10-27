@@ -62,7 +62,7 @@ const MedicalDevices: React.FC<MedicalDevicesInterface> = () => {
         {medicalDevices &&
           medicalDevices.map((device: Device) => {
             return (
-              <Card>
+              <Card key={device.id}>
                 <button className="detail">Detail...</button>
                 <span>Id</span>
                 <h3>{device.id}</h3>
