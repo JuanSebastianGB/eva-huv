@@ -1,5 +1,7 @@
+const { matchedData } = require('express-validator');
 const { Service } = require('../models');
 const serviceMethods = require('../services/services');
+const { handleHttpError } = require('../utils/handleHttpError');
 
 class ServiceController {
   /**
@@ -9,17 +11,17 @@ class ServiceController {
    * @returns - A JSON object with the response from the database
    */
   static async create(req, res) {
-    const { name } = req.body;
-    if (!name) res.status(400).json({ err: 'missing name' });
     try {
+      const validatedRequest = matchedData(req);
+      const { name } = validatedRequest;
       const service = await serviceMethods.getByParam('name', name);
       if (service.length > 0) {
         return res.status(400).json({ err: 'Already exists' });
       }
-      const response = await serviceMethods.create(req.body);
+      const response = await serviceMethods.create(validatedRequest);
       return res.status(201).json({ response });
     } catch (err) {
-      return res.status(400).json({ err });
+      return handleHttpError(res, 'ERROR_CREATE_SERVICE');
     }
   }
 
